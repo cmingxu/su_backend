@@ -1,0 +1,19 @@
+= form_for @entity do |f|
+  - if @entity.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@entity.errors.count, "error")} prohibited this entity from being saved:"
+      %ul
+        - @entity.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :folder_id
+    = f.number_field :folder_id
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :skp_file
+    = f.text_field :skp_file
+  .actions
+    = f.submit 'Save'

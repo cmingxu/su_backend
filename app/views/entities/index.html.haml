@@ -1,0 +1,25 @@
+%h1 Listing entities
+
+%table
+  %thead
+    %tr
+      %th Folder
+      %th Name
+      %th Skp file
+      %th
+      %th
+      %th
+
+  %tbody
+    - @entities.each do |entity|
+      %tr
+        %td= entity.folder_id
+        %td= entity.name
+        %td= entity.skp_file
+        %td= link_to 'Show', entity
+        %td= link_to 'Edit', edit_entity_path(entity)
+        %td= link_to 'Destroy', entity, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Entity', new_entity_path
