@@ -10,6 +10,8 @@ class FoldersController < ApplicationController
   # GET /folders/1
   # GET /folders/1.json
   def show
+    @folders = [@folder]
+    redirect_to root_path
   end
 
   # GET /folders/new

@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -42,9 +42,13 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
   gem 'shoulda-matchers', require: false
+  gem 'image_suckr'
+  gem 'faker'
 end
 
 gem 'devise'
 gem "haml-rails", "~> 0.9"
 gem 'carrierwave'
+gem "uikit-sass-rails"
+gem 'mini_magick'
 
