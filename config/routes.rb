@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get 'welcome/index'
-
   resources :entities
-
   resources :folders
 
   namespace :dashboard do

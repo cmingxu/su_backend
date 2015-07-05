@@ -44,11 +44,22 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem 'image_suckr'
   gem 'faker'
+  gem 'quiet_assets'
+  gem 'better_errors'
 end
 
+gem 'bower-rails'
+gem 'acts_as_list'
+gem 'settingslogic'
+gem 'simple_captcha2', require: 'simple_captcha'
+gem 'aasm'
+gem 'rmagick'
 gem 'devise'
-gem "haml-rails", "~> 0.9"
+gem 'haml-rails', '~> 0.9'
 gem 'carrierwave'
-gem "uikit-sass-rails"
+gem 'uikit-sass-rails'
 gem 'mini_magick'
+gem 'unicorn'
+gem 'mina'
+gem 'pundit'
 
