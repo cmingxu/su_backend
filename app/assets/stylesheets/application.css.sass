@@ -1,2 +1,26 @@
 @import "uikit"
 @import "uikit/almost-flat"
+
+$fc-main-font-color: #E5E5E5
+$sidebar-width: 160px
+
+.fc-container
+  padding-top: 50px
+  padding-left: $sidebar-width
+  position: relative
+.fc-sidebar
+  width: $sidebar-width
+  position: absolute
+  left: 0px
+  top: 50px
+  border-right: 1px solid $fc-main-font-color
+.fc-nav > li > a
+  color: #777
+
+.fc-nav
+  li
+    &:hover
+      a
+        color: white
+      background-color: #777
+
