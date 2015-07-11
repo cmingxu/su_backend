@@ -4,6 +4,8 @@ require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
+require "pundit/rspec"
+
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -28,6 +30,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers, type: :view
   config.include FactoryGirl::Syntax::Methods
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

@@ -27,6 +27,7 @@ RSpec.describe Material, type: :model do
       expect(Material.new).to validate_presence_of(:icon)
       expect(Material.new).to validate_presence_of(:vendor_id)
       expect(Material.new).to validate_presence_of(:price)
+      expect(Material.new).to validate_presence_of(:code)
     end
 
     it 'should validate numericality of price' do
@@ -35,6 +36,13 @@ RSpec.describe Material, type: :model do
 
     it 'should validate uniqueness of name within scope of vendor id' do
       expect(Material.new).to validate_uniqueness_of(:name).scoped_to(:vendor_id)
+      expect(Material.new).to validate_uniqueness_of(:code)
+    end
+  end
+
+  describe "material icon " do
+    it 'should be instance of class MaterialIconUploader' do
+      expect(Material.new.icon).to be_a(MaterialIconUploader)
     end
   end
 end

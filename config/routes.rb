@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
-  resources :vendors
-
-  resources :materials
-
   get 'welcome/index'
-  resources :entities
-  resources :folders
+
+  resources :folders, only: [:index, :show]
 
   namespace :dashboard do
     get '/' => "base#index"
     get 'base/index'
+    resources :entities
+    resources :folders
+    resources :vendors
+    resources :materials
   end
 
   devise_for :users, controllers: {

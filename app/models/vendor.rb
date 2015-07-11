@@ -18,4 +18,8 @@ class Vendor < ActiveRecord::Base
   validates :name, uniqueness: true
 
   has_many :materials
+
+  def destructive?
+    !materials.exists?
+  end
 end

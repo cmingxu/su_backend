@@ -15,8 +15,10 @@ FactoryGirl.define do
   factory :material do
     name "MyString"
 vendor_id 1
-icon "MyString"
 price "9.99"
+ sequence(:code, 1000) {|n| "fs#{n}" }
+  icon { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'bigo.jpg'))}
   end
+
 
 end

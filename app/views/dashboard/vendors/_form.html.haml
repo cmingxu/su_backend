@@ -1,0 +1,23 @@
+= form_for [:dashboard, @vendor] do |f|
+  %table.uk-table.uk-table-stripped.uk-table-hover
+    %caption 材料商
+    %tr
+      %td 名称
+      %td= f.text_field :name
+
+    %tr
+      %td 电话
+      %td= f.text_field :address
+
+    %tr
+      %td 简介
+      %td= f.text_area :short_desc
+
+    %tr
+      %td 详情
+      %td= f.text_area :desc
+
+
+    %tr
+      %td.uk-text-right{colspan: 2}
+        = f.submit f.object.persisted? ? "修改" : "增加", class: 'uk-button'

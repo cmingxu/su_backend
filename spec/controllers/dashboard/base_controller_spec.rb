@@ -27,4 +27,5 @@ RSpec.describe Dashboard::BaseController, type: :controller do
       expect(assigns(:folders)).to eq([@folder])
     end
   end
+
 end

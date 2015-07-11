@@ -47,8 +47,13 @@ group :development, :test do
   gem 'faker'
   gem 'quiet_assets'
   gem 'better_errors'
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+  gem 'awesome_print', require: 'lib'
 end
 
+
+gem 'rails-i18n', '~> 4.0.0'
 gem 'bower-rails'
 gem 'acts_as_list'
 gem 'settingslogic'
@@ -63,4 +68,5 @@ gem 'mini_magick'
 gem 'unicorn'
 gem 'mina'
 gem 'pundit'
+gem 'kaminari'
 

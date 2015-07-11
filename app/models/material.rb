@@ -13,9 +13,11 @@
 
 class Material < ActiveRecord::Base
   include UUID
-  validates :name, :icon, :vendor_id, :price, presence: true
+  validates :name, :icon, :vendor_id, :code, :price, presence: true
   validates :price, numericality: true
   validates :name, uniqueness: { scope: :vendor_id }
+  validates :code, uniqueness: true
 
   belongs_to :vendor
+  mount_uploader :icon, MaterialIconUploader
 end

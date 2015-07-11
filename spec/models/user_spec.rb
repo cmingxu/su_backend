@@ -22,4 +22,13 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { should have_many(:folders) }
   it { should have_many(:entities) }
+
+  it 'should have roles' do
+    expect(User.new).to have_db_column(:roles)
+    expect(User.new).to serialize(:roles)
+    expect(create(:user).roles).to include("user")
+    expect(create(:user)).not_to be_admin
+    expect(create(:user)).to be_user
+  end
+
 end

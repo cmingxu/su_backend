@@ -1,0 +1,6 @@
+- flash.keys.each do |k, v|
+  - ap k
+  - ap v
+  - next if v.blank?
+  .uk-alert.uk-alert-large{"data-uk-alert" => true}
+    = flash[k]

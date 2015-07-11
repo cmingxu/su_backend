@@ -29,4 +29,13 @@ RSpec.describe Vendor, type: :model do
 
     expect(Vendor.new).to validate_uniqueness_of(:name)
   end
+
+  describe 'destructive' do
+    it 'not destructive if have material' do
+      @vendor = create :vendor
+      @vendor.materials = [create(:material)]
+      @vendor.save
+      expect(@vendor).not_to be_destructive
+    end
+  end
 end

@@ -24,6 +24,20 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  serialize :roles, Array
+
   has_many :folders
   has_many :entities
+
+  before_create do |u|
+    u.roles = ['user']
+  end
+
+  def user?
+    self.roles.include? 'user'
+  end
+
+  def admin?
+    self.roles.include? 'admin'
+  end
 end
