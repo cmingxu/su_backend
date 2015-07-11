@@ -4,9 +4,13 @@ Rails.application.routes.draw do
   resources :folders, only: [:index, :show]
 
   namespace :dashboard do
-    get '/' => "base#index"
+    get '/' => "entities#index"
     get 'base/index'
-    resources :entities
+    resources :entities do
+      member do
+        patch :toggle_visible
+      end
+    end
     resources :folders
     resources :vendors do
       resources :materials

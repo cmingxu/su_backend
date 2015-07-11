@@ -33,7 +33,6 @@ RSpec.describe Entity, type: :model do
       expect(Entity.new).to validate_presence_of(:folder_id)
       expect(Entity.new).to validate_presence_of(:skp_file)
       expect(Entity.new).to validate_presence_of(:name)
-      expect(Entity.new).to validate_presence_of(:user_id)
     end
   end
 end

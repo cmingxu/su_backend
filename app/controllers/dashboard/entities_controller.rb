@@ -1,8 +1,9 @@
 class Dashboard::EntitiesController < Dashboard::BaseController
-  before_filter :find_entity, only: [:edit, :update, :destroy]
+  before_filter :find_entity, only: [:edit, :update, :destroy, :toggle_visible]
 
   def index
-    @entities = Entity.page params[:page]
+    @entities = Entity.order('id desc').page params[:page]
+    @entity  = current_user.entities.new
   end
 
   def new
@@ -12,8 +13,13 @@ class Dashboard::EntitiesController < Dashboard::BaseController
   def create
     @entity = policy_scope(Entity).new entity_param
     authorize @entity
-    if @entity.save
-    else
+    respond_to do |format|
+      if @entity.save
+        format.html { redirect_to dashboard_entities_path, notice: "模型上传成功" }
+      else
+        flash[:notice] = @entity.errors.full_messages.first
+        format.html { render :new }
+      end
     end
   end
 
@@ -23,12 +29,25 @@ class Dashboard::EntitiesController < Dashboard::BaseController
   def update
     authorize @entity
     if @entity.update_attributes entity_param
+      redirect_to dashboard_entities_path, notice: "模型修改成功"
     else
+      render :edit
     end
+  end
+
+  def toggle_visible
+    authorize @entity, :update?
+    @entity.update_column :visible, !@entity.visible
+    render :js => "window.location.reload();"
   end
 
   def destroy
     authorize @entity
+    if @entity.destroy
+      redirect_to dashboard_entities_path, notice: "模型删除成功"
+    else
+      redirect_to dashboard_entities_path, notice: "模型删除失败"
+    end
   end
 
   private
