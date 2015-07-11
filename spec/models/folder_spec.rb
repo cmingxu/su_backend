@@ -15,4 +15,13 @@ require 'rails_helper'
 RSpec.describe Folder, type: :model do
   it { should belong_to(:user) }
   it { should have_many(:entities) }
+
+  describe '#site_level sope' do
+    it 'scope should include' do
+      @folder = create :folder
+      @folder.is_system = true
+
+      expect(Folder.site_level).to include(@folder)
+    end
+  end
 end

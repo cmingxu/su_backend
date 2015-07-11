@@ -26,7 +26,7 @@ RSpec.describe Vendor, type: :model do
     expect(Vendor.new).to validate_presence_of(:name)
     expect(Vendor.new).to validate_presence_of(:address)
     expect(Vendor.new).to validate_presence_of(:short_desc)
-
+    expect(Vendor.new).to validate_presence_of(:tel)
     expect(Vendor.new).to validate_uniqueness_of(:name)
   end
 

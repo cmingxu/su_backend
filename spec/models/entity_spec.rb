@@ -18,4 +18,22 @@ require 'rails_helper'
 RSpec.describe Entity, type: :model do
   it { should belong_to(:user) }
   it { should belong_to(:folder) }
+
+  describe '#site_level sope' do
+    it 'scope should include' do
+      @entity = create :entity
+      @entity.is_system = true
+
+      expect(Entity.site_level).to include(@entity)
+    end
+  end
+
+  describe "validations" do
+    it '' do
+      expect(Entity.new).to validate_presence_of(:folder_id)
+      expect(Entity.new).to validate_presence_of(:skp_file)
+      expect(Entity.new).to validate_presence_of(:name)
+      expect(Entity.new).to validate_presence_of(:user_id)
+    end
+  end
 end

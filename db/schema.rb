@@ -11,27 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711050019) do
+ActiveRecord::Schema.define(version: 20150711084109) do
 
   create_table "entities", force: :cascade do |t|
     t.integer  "folder_id",   limit: 4
     t.string   "name",        limit: 255
     t.string   "skp_file",    limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "user_id",     limit: 4
     t.text     "description", limit: 65535
     t.string   "icon",        limit: 255
     t.string   "uuid",        limit: 255
+    t.boolean  "is_system",   limit: 1,     default: false
+    t.boolean  "visible",     limit: 1,     default: true
   end
 
   create_table "folders", force: :cascade do |t|
     t.string   "name",         limit: 255
     t.integer  "entity_count", limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "user_id",      limit: 4
     t.string   "uuid",         limit: 255
+    t.boolean  "is_system",    limit: 1,   default: false
+  end
+
+  create_table "kindeditor_assets", force: :cascade do |t|
+    t.string   "asset",      limit: 255
+    t.integer  "file_size",  limit: 4
+    t.string   "file_type",  limit: 255
+    t.integer  "owner_id",   limit: 4
+    t.string   "asset_type", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "materials", force: :cascade do |t|

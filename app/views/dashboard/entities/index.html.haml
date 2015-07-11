@@ -1,2 +1,24 @@
-%h1 Dashboard::Entities#index
-%p Find me in app/views/dashboard/entities/index.html.haml
+.uk-grid
+  .uk-width-1-1
+    = link_to "上传模型", new_dashboard_entity_path, class: 'uk-button uk-float-right uk-button-primary'
+
+%hr
+
+.uk-grid
+  %table.uk-table.uk-table-hover.uk-table-stripped
+    %thead
+      %th ID
+      %th 文件夹
+      %th 模型名
+      %th 上传时间
+      %th 是否可见
+    %tbody
+      - @entities.each do |v|
+        %tr
+          %th= link_to v.id, edit_dashboard_entity_path(v)
+          %th= v.folder.name
+          %th= v.name
+          %th= v.created_at.to_s(:short)
+          %th= v.visible? ? "是" : "否"
+          %th
+

@@ -1,12 +1,16 @@
-= form_for [:dashboard, @vendor] do |f|
+= form_for [:dashboard, @vendor], class: 'uk-form' do |f|
   %table.uk-table.uk-table-stripped.uk-table-hover
     %caption 材料商
     %tr
       %td 名称
-      %td= f.text_field :name
+      %td= f.text_field :name, class: 'uk-from-large'
 
     %tr
       %td 电话
+      %td= f.text_field :tel
+
+    %tr
+      %td 地址
       %td= f.text_field :address
 
     %tr
@@ -15,8 +19,7 @@
 
     %tr
       %td 详情
-      %td= f.text_area :desc
-
+      %td= f.kindeditor :desc, simple_mode: true, height: 800
 
     %tr
       %td.uk-text-right{colspan: 2}

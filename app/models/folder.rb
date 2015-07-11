@@ -13,6 +13,7 @@
 class Folder < ActiveRecord::Base
   include UUID
 
+  scope :site_level, -> { where(is_system: false) }
   belongs_to :user
   has_many :entities
 end

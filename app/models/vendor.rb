@@ -14,7 +14,7 @@
 
 class Vendor < ActiveRecord::Base
   include UUID
-  validates :name, :address, :short_desc, :desc, presence: true
+  validates :name, :tel, :address, :short_desc, :desc, presence: true
   validates :name, uniqueness: true
 
   has_many :materials

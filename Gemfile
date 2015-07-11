@@ -49,7 +49,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'guard-rspec'
   gem 'guard-livereload'
-  gem 'awesome_print', require: 'lib'
+  gem 'awesome_print'
 end
 
 
@@ -69,4 +69,5 @@ gem 'unicorn'
 gem 'mina'
 gem 'pundit'
 gem 'kaminari'
+gem 'rails_kindeditor'
 

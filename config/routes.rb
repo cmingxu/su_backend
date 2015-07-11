@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     get 'base/index'
     resources :entities
     resources :folders
-    resources :vendors
+    resources :vendors do
+      resources :materials
+    end
     resources :materials
   end
 

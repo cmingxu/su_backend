@@ -19,7 +19,7 @@ class Dashboard::VendorsController < Dashboard::BaseController
       flash[:noice] = "新增材料商成功"
       redirect_to dashboard_vendors_path
     else
-      flash[:alert] = "新增材料商失败, #{@vendor.errors.full_messages.join}"
+      flash[:alert] = "新增材料商失败, #{@vendor.errors.full_messages.first}"
       render :new
     end
   end

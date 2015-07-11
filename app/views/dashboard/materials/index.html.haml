@@ -18,3 +18,4 @@
         %th= m.price
         %th= m.vendor.name
         %th
+          = link_to "删除", dashboard_material_path(m), method: :delete, data: { confirm: "确定要删除此材料？" }

@@ -2,6 +2,8 @@
   .uk-width-1-1
     = link_to "新增材料商", new_dashboard_vendor_path, class: 'uk-button uk-float-right uk-button-primary'
 
+%hr
+
 .uk-grid
   %table.uk-table.uk-table-hover.uk-table-stripped
     %thead
@@ -15,8 +17,9 @@
       - @vendors.each do |v|
         %tr
           %th= link_to v.id, edit_dashboard_vendor_path(v)
-          %th= = link_to v.name, edit_dashboard_vendor_path(v)
+          %th= link_to v.name, edit_dashboard_vendor_path(v)
           %th= v.tel
           %th= v.address
           %th= v.materials.count
           %th
+            = link_to "新增材料", new_dashboard_vendor_material_path(v)
