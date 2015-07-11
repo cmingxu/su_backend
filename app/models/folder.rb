@@ -11,6 +11,8 @@
 #
 
 class Folder < ActiveRecord::Base
+  include UUID
+
   belongs_to :user
   has_many :entities
 end

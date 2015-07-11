@@ -14,6 +14,7 @@
 #
 
 class Entity < ActiveRecord::Base
+  include UUID
   belongs_to :user
   belongs_to :folder
 

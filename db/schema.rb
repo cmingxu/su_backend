@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150705223010) do
+ActiveRecord::Schema.define(version: 20150711010833) do
 
   create_table "entities", force: :cascade do |t|
     t.integer  "folder_id",   limit: 4
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150705223010) do
     t.integer  "user_id",     limit: 4
     t.text     "description", limit: 65535
     t.string   "icon",        limit: 255
+    t.string   "uuid",        limit: 255
   end
 
   create_table "folders", force: :cascade do |t|
@@ -30,6 +31,17 @@ ActiveRecord::Schema.define(version: 20150705223010) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "user_id",      limit: 4
+    t.string   "uuid",         limit: 255
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.integer  "vendor_id",  limit: 4
+    t.string   "icon",       limit: 255
+    t.decimal  "price",                  precision: 10
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.string   "uuid",       limit: 255
   end
 
   create_table "simple_captcha_data", force: :cascade do |t|
@@ -54,9 +66,21 @@ ActiveRecord::Schema.define(version: 20150705223010) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uuid",                   limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "vendors", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "tel",        limit: 255
+    t.string   "address",    limit: 255
+    t.text     "short_desc", limit: 65535
+    t.text     "desc",       limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "uuid",       limit: 255
+  end
 
 end

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :vendors
+
+  resources :materials
+
   get 'welcome/index'
   resources :entities
   resources :folders

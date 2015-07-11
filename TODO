@@ -1,0 +1,23 @@
+# 7.18 - 7.31
+
+  * data transfer between SU and plugin, bidirectional.
+  * data transfer between plugin and server, bidirectional.
+  * user login and register
+  * su backend management system done, materials upload, user management, system library models upload
+  * su backend server access to model name, attributes and thumbnail.
+
+# 7.31 - 8.15
+
+  * material show / 1/4 screen size and link to material owner info page
+  * model upload - save model to local filesystem, upload model to remote storage.
+  * model download - save model from remote to local filesystem
+  * model replace - draw line and replace existing line
+  * model creation
+  * surface size calculation
+
+# 8.16 - 8.31
+
+  * group model attributes reveal in plugin
+  * group model attribute change - change submodels corrsponded.
+  * ui refinement (plugin)
+  * ui refinement (backend)
