@@ -56,11 +56,6 @@ task :setup => :environment do
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
 end
 
-namespace :rails do
-  task :copy_plugin_to_public do
-    queue "cp #{deploy_to}/#{current_path}/su/su.zip #{deploy_to}/#{current_path}/public/gjzg.zip"
-  end
-end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
@@ -77,7 +72,8 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
-      invoke :'rails:copy_plugin_to_public'
+      queue  %[echo "copying files"]
+      queue "cp #{deploy_to}/#{current_path}/su/su.zip #{deploy_to}/#{current_path}/public/gjzg.zip"
     end
 
   end
