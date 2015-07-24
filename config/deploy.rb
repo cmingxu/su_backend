@@ -65,7 +65,6 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'kindeditor:assets'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
