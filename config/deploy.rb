@@ -58,7 +58,7 @@ end
 
 namespace :rails do
   task :copy_plugin_to_public do
-    queue "cd #{deploy_to}/#{current_path} && cp plugin/su.zip public/构建中国.zip"
+    queue "cp #{deploy_to}/#{current_path}/plugin/su.zip #{deploy_to}/#{current_path}/public/构建中国.zip"
   end
 end
 
