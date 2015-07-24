@@ -79,7 +79,6 @@ task :deploy => :environment do
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
 
-    invoke :'rails:copy_plugin_to_public'
   end
 end
 
