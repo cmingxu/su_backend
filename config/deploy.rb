@@ -72,13 +72,14 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :'rails:copy_plugin_to_public'
     invoke :'deploy:cleanup'
 
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     end
+
+    invoke :'rails:copy_plugin_to_public'
   end
 end
 
