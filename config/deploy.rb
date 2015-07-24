@@ -56,6 +56,16 @@ task :setup => :environment do
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
 end
 
+namespace :rails do
+  task :'copy_kindeditor_assets' do
+    queue %{
+      echo "-----> rake kindeditor:assets"
+    #{echo_cmd %[#{rake} kindeditor:assets]}
+    }
+  end
+end
+
+
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
@@ -65,6 +75,7 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
+    invoke :'rails:copy_kindeditor_assets'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
