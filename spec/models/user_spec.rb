@@ -31,4 +31,9 @@ RSpec.describe User, type: :model do
     expect(create(:user)).to be_user
   end
 
+  it 'should have db column visible' do
+    expect(User.new).to have_db_column(:visible)
+    expect(User.new.visible).to eql(true)
+  end
+
 end

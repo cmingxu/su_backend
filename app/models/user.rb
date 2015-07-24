@@ -24,20 +24,30 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  serialize :roles, Array
-
   has_many :folders
   has_many :entities
 
+  scope :normal_user, -> { where( "roles LIKE '%user%'" ) }
+  scope :admin, -> { where( "roles LIKE '%admin%'" ) }
+
   before_create do |u|
-    u.roles = ['user']
+    u.roles = 'user'
   end
 
   def user?
-    self.roles.include? 'user'
+    self.roles =~ Regexp.new('user')
   end
 
   def admin?
-    self.roles.include? 'admin'
+    self.roles =~ Regexp.new('admin')
+  end
+
+  def make_admin!
+    self.roles += ",admin"
+    self.save!
+  end
+
+  def roles_in_words
+    [self.user? ? "注册用户" : nil,  self.admin? ? "管理员" : nil].compact
   end
 end

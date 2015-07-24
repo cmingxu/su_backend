@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require jquery.turbolinks
 //= require uikit
+//= require c3
 //= require_tree .
 //
 

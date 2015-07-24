@@ -70,4 +70,5 @@ gem 'mina'
 gem 'pundit'
 gem 'kaminari'
 gem 'rails_kindeditor'
-
+gem 'd3-rails'
+gem 'c3-rails'

@@ -1,6 +1,8 @@
 default: &default
   sitename: ""
-  title: ""
+  title: "建构中国"
+  domain: ""
+  description: ""
 
 production:
   <<: *default

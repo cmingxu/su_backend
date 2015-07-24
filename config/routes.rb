@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :folders, only: [:index, :show]
 
   namespace :dashboard do
-    get '/' => "entities#index"
+    get '/' => "base#index"
     get 'base/index'
     resources :entities do
       member do
@@ -16,6 +16,11 @@ Rails.application.routes.draw do
       resources :materials
     end
     resources :materials
+    resources :users do
+      member do
+        patch :toggle_visible
+      end
+    end
   end
 
   devise_for :users, controllers: {

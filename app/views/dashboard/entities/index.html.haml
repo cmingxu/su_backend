@@ -24,7 +24,6 @@
           %td= v.name
           %td= v.created_at.to_s(:short)
           %td
-            = v.visible? ? "是" : "否"
             = check_box_tag "visible", v.visible, v.visible, class: 'toggle_visible', data: { entity_id: v.id }
           %td
             = link_to "删除", dashboard_entity_path(v), method: :delete, data: { confirm: "删除此模型？" }
