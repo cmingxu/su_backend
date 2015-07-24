@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require kindeditor
+//= require ckeditor-jquery
 //= require turbolinks
 //= require jquery.turbolinks
 //= require uikit
@@ -20,3 +20,8 @@
 //= require_tree .
 //
 
+$(document).ready(function () {
+  $('.ckeditor').ckeditor({
+    // optional config
+  });
+});
