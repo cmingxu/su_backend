@@ -58,7 +58,7 @@ end
 
 namespace :rails do
   task :copy_plugin_to_public do
-    queue "cp #{deploy_to}/#{current_path}/plugin/su.zip #{deploy_to}/#{current_path}/public/构建中国.zip"
+    queue "cp #{deploy_to}/#{current_path}/plugin/su.zip #{deploy_to}/#{current_path}/public/gjzg.zip"
   end
 end
 
@@ -72,7 +72,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :'rails:package_plugin'
+    invoke :'rails:copy_plugin_to_public'
     invoke :'deploy:cleanup'
 
     to :launch do
