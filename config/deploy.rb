@@ -56,6 +56,11 @@ task :setup => :environment do
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
 end
 
+namespace :rails do
+  task :copy_plugin_to_public do
+    queue "cd #{deploy_to}/#{current_path} && cp plugin/su.zip public/构建中国.zip"
+  end
+end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
@@ -67,6 +72,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
+    invoke :'rails:package_plugin'
     invoke :'deploy:cleanup'
 
     to :launch do

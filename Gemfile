@@ -72,3 +72,5 @@ gem 'kaminari'
 gem 'ckeditor_rails'
 gem 'd3-rails'
 gem 'c3-rails'
+gem 'angularjs-rails'
+

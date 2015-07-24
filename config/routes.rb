@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :plugin do
+    get '/' => 'base#index'
+  end
+
+
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
