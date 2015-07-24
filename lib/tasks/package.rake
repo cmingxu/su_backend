@@ -1,6 +1,6 @@
 namespace :plugin do
   task :package do
-    plugin_path = Rails.root.join('plugin')
+    plugin_path = Rails.root.join('su')
     tmp_path    = Rails.root.join('tmp')
 
     sh "rm -f #{plugin_path}/su.zip"
