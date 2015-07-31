@@ -16,4 +16,13 @@ namespace :plugin do
     sh "cd #{tmp_path} && zip -r su.zip su && cd -"
     sh "mv #{tmp_path}/su.zip #{plugin_path}/"
   end
+
+  task :direct_copy do
+    su_plugin_path = "/Users/cmingxu/Library/Application\ Support/SketchUp\ 2015/SketchUp/Plugins"
+    FileUtils.rm_rf su_plugin_path + "/su_building.rb"
+    FileUtils.rm_rf su_plugin_path + "/su_building"
+
+    FileUtils.copy Rails.root.join("su", "su_building.rb"), su_plugin_path + "/"
+    FileUtils.cp_r Rails.root.join("su", "su_building"), su_plugin_path + "/"
+  end
 end

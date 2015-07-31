@@ -1,4 +1,4 @@
-require 'json'
+Sketchup::require 'json'
 
 module ActionCallback
   def register_callbacks(dialog)

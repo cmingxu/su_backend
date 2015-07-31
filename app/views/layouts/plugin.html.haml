@@ -12,17 +12,17 @@
         %input#current_model{type: 'hidden', name: '', 'ng-model' => 'current_model'}
 
       .uk-grid#model_profile
-        .uk-medium-width-1-3
+        .uk-width-1-3
           = image_tag "model.jpg", width: 128,  'data-uk-margin' => true
-        .uk-medium-width-2-3
-          .uk-vertical-align-middle
-            = form_tag url: "", method: "post", class: "uk-form" do
-              %input.uk-form-large.uk-margin-bottom{value: "#DH1323"}
+        .uk-width-2-3
+          = form_tag "", method: "post", class: "uk-form" do
+            %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{value: "#DH1323"}
+            .uk-clearfix
           #action_bar
             %button.uk-button.uk-button-small.uk-primary.uk-float-right 保存
             %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right 替换 
 
-      .uk-grid#models
+      #models
         .uk-width-medium-1-1.su_models_header
           %ul.uk-tab{'data-uk-tabs' => '{connect: "#tabs"}'}
             %li
@@ -40,11 +40,11 @@
             %li
             %li
 
-        .uk-grid#ad
+      #ad
 
-        .uk-grid#user_profile
-          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要注册
-          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要登录
+      #user_profile
+        %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要注册
+        %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要登录
 
 
 

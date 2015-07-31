@@ -29,7 +29,8 @@ $logger.debug "Initializing APP"
 
 $logger.debug $LOAD_PATH
 
-require 'ui'
+Sketchup::require 'ui'
+
 UI.menu("Plugins").add_item("Show ") do
   BuildingUI.new.show
 end

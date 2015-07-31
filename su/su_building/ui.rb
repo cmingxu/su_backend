@@ -1,4 +1,4 @@
-require 'action_callback'
+Sketchup::require 'action_callback'
 
 class BuildingUI
   WIDTH = 400
@@ -12,7 +12,7 @@ class BuildingUI
   def initialize
     @my_dialog = UI::WebDialog.new("构建中国", true, "", WIDTH, HEIGHT, LEFT, TOP, true)
     @action_callbacks = []
-    @my_dialog.url = "http://jghtwl.com:8081/plugin"
+    @my_dialog.set_url  "http://jghtwl.com:8081/plugin"
     @my_dialog.allow_actions_from_host "http://jghtwl.com"
 
     @my_dialog.min_height = @my_dialog.max_height = HEIGHT
