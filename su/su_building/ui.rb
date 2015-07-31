@@ -12,8 +12,8 @@ class BuildingUI
   def initialize
     @my_dialog = UI::WebDialog.new("构建中国", true, "", WIDTH, HEIGHT, LEFT, TOP, true)
     @action_callbacks = []
-    html_path = Sketchup.find_support_file "index.html" ,"Plugins/su_building/html"
-    @my_dialog.set_file(html_path)
+    @my_dialog.url = "http://jghtwl.com:8081/plugin"
+    @my_dialog.allow_actions_from_host "http://jghtwl.com"
 
     @my_dialog.min_height = @my_dialog.max_height = HEIGHT
     @my_dialog.min_width = @my_dialog.max_width = WIDTH

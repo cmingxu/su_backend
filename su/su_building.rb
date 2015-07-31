@@ -11,7 +11,7 @@ $PLATFORM = (RUBY_PLATFORM =~ /darwin/ ? "MACOS" : "WINDOWS")
 $ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), "su_building"))
 
 # add ruby file path into loading pathes
-$LOAD_PATH.push(File.join($ROOT_PATH,  "ruby"))
+$LOAD_PATH.push($ROOT_PATH)
 
 $SKP_PATH = File.expand_path(File.join($ROOT_PATH , "skps"))
 FileUtils.mkdir_p($SKP_PATH) if !File.exists?($SKP_PATH)
