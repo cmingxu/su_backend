@@ -18,7 +18,6 @@ FileUtils.mkdir_p($SKP_PATH) if !File.exists?($SKP_PATH)
 FileUtils.chmod(0777, $SKP_PATH)
 
 # load required rb files
-require 'ui'
 
 ## Logger
 $TMP_FILE_PATH = $ROOT_PATH + "/tmp"
@@ -28,7 +27,9 @@ FileUtils.chmod(0777, $TMP_FILE_PATH)
 $logger = Logger.new File.join($TMP_FILE_PATH,  "logger.log")
 $logger.debug "Initializing APP"
 
+$logger.debug $LOAD_PATH
 
+require 'ui'
 UI.menu("Plugins").add_item("Show ") do
   BuildingUI.new.show
 end
