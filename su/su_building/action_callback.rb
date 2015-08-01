@@ -24,15 +24,12 @@ module ActionCallback
       model.save $SKP_PATH + model.name +  ".skp"
     end
 
-    dialog.add_action_callback('current_model_change') do |action, params|
+    dialog.add_action_callback('current_model') do |action, params|
       model = Sketchup.active_model
       model_name = model.name
 
-      thumbnail_path = File.join($ROOT_PATH, "images", "thumbnail.jpg")
-      FileUtils.rm_f(thumbnail_path)
-      $logger.debug thumbnail_path
       model.save_thumbnail(thumbnail_path)
-      current_model = {:model_name => model_name, :thumbnail => "../images/" + File.basename(thumbnail_path) + "?#{Time.now.to_i}"}
+      current_model = {:model_name => model_name}
       update_js_value(dialog, "current_model", current_model.to_json)
     end
 
