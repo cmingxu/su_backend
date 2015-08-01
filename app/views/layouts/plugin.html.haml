@@ -16,7 +16,7 @@
           = image_tag "model.jpg", width: 128,  'data-uk-margin' => true
         .uk-width-2-3
           = form_tag "", method: "post", class: "uk-form" do
-            %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{'ng-value' => "{{current_model.name}}"}
+            %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{'ng-model' => "current_model.name", 'ng-change' => "current_model_name_change()"}
             .uk-clearfix
           #action_bar
             %button.uk-button.uk-button-small.uk-primary.uk-float-right{disabled: true} 保存

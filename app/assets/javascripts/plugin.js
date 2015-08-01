@@ -2,6 +2,10 @@
 //= require uikit
 //= require angular
 
+if(console === undefined){
+  console = {}; console.log = function () { };
+}
+
 var building = angular.module("building", []);
 
 building.controller('main', ["$scope", "$http", "$interval", function ($scope, $http, $interval) {
@@ -13,11 +17,14 @@ building.controller('main', ["$scope", "$http", "$interval", function ($scope, $
     window.location.href = "skp:" + action + "@" + param;
   }
 
-  $scope.bridge('current_model', '');
+  $scope.current_model_name_change = function () {
+    $scope.bridge('current_model_name_change', $scope.current_model.name);
+  }
 
-  $interval(function () {
-      console.log($scope.current_model);
-  }, 10 * 1000);
+  $scope.$watch('current_model', function (n, w) {
+   console.log(n, w);
+  })
 
+  $scope.bridge('initialization', '');
 }]);
 

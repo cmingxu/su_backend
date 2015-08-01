@@ -24,19 +24,25 @@ module ActionCallback
       model.save $SKP_PATH + model.name +  ".skp"
     end
 
-    dialog.add_action_callback('current_model') do |action, params|
+    dialog.add_action_callback('current_model_name_change') do |action, params|
+      $logger.debug "updating name to #{params}"
+      model = Sketchup.active_model
+      model.name = params
+    end
+
+    dialog.add_action_callback('initialization') do |action, params|
       model = Sketchup.active_model
       model_name = model.name
 
-      model.save_thumbnail(thumbnail_path)
-      current_model = {:model_name => model_name}
+      # initiate current_model
+      current_model = {:name => model_name}
       update_js_value(dialog, "current_model", current_model.to_json)
     end
 
   end
 
   def update_js_value(dialog, id, new_val)
-    js_command = "var dom = document.getElementById('#{id}'); angular.element(dom).scope().#{id} = JSON.parse('#{new_val}');"
+    js_command = "var dom = document.getElementById('#{id}'); var scope = angular.element(dom).scope(); scope.$apply(function() { scope.#{id} = JSON.parse('#{new_val}');});"
     $logger.debug js_command
     dialog.execute_script(js_command)
   end
