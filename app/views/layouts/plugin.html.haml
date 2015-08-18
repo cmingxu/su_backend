@@ -8,8 +8,7 @@
   %body{'ng-app' => 'building'}
     .uk-container.uk-container-center.su-container{'ng-controller' => 'main'}
       .data-channel
-        %input#local_skp_names{type: 'hidden', name: '', 'ng-model' => 'local_skp_names'}
-        %input#current_model{type: 'hidden'}
+        %input#data_transfer_channel{type: 'hidden'}
 
       .uk-grid#model_profile
         .uk-width-1-3
@@ -19,8 +18,8 @@
             %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{'ng-model' => "current_model.name", 'ng-change' => "current_model_name_change()"}
             .uk-clearfix
           #action_bar
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right{disabled: true} 保存
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('current_model')"} 替换 
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right{"disabled" => "{{!current_model.name}}"} 替换
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('save_current_model')", "disabled" => "!current_model.name"} 保存
 
       #models
         .uk-width-medium-1-1.su_models_header

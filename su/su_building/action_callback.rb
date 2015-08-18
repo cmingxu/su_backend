@@ -22,7 +22,7 @@ module ActionCallback
 
     dialog.add_action_callback('save_current_model') do |action, params|
       model = Sketchup.active_model
-      model.save $SKP_PATH + model.name +  ".skp"
+      model.save File.join($SKP_PATH, "#{model.name}.skp")
     end
 
     dialog.add_action_callback('current_model_name_change') do |action, params|
@@ -34,20 +34,29 @@ module ActionCallback
     dialog.add_action_callback('initialization') do |action, params|
       model = Sketchup.active_model
       model_name = model.name
+
+      # initiate current_model
       thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
       model.save_thumbnail(thumbnail_file_path)
       base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
       thumbnail_src = "data:image/png;base64,#{base64string}"
-
-      # initiate current_model
       current_model = {:name => model_name, :thumbnail_src => thumbnail_src}
       update_js_value(dialog, "current_model", current_model.to_json)
+
+      # initiate local skps files
+      local_skps = Dir.glob($SKP_PATH + "/*").map do |f|
+        {
+          :name => File.basename(f),
+          :size => File.stat(f).size
+        }
+      end
+      update_js_value(dialog, "local_skps", local_skps.to_json)
     end
 
   end
 
   def update_js_value(dialog, id, new_val)
-    js_command = "var dom = document.getElementById('#{id}'); var scope = angular.element(dom).scope(); scope.$apply(function() { scope.#{id} = JSON.parse('#{new_val}');});"
+    js_command = "var dom = document.getElementById('data_transfer_channel'); var scope = angular.element(dom).scope(); scope.$apply(function() { scope.#{id} = JSON.parse('#{new_val}');});"
     $logger.debug js_command
     dialog.execute_script(js_command)
   end

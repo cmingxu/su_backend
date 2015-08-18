@@ -14,7 +14,7 @@ var building = angular.module("building", []);
 
 building.controller('main', ["$scope", "$http", "$interval", function ($scope, $http, $interval) {
   $scope.current_model = {};
-  $scope.local_skp_names = "";
+  $scope.local_skps = [];
 
   $scope.bridge = function (action, param) {
     console.log('bridge  ' + action);
@@ -26,7 +26,11 @@ building.controller('main', ["$scope", "$http", "$interval", function ($scope, $
   }
 
   $scope.$watch('current_model', function (n, w) {
-   console.log(n, w);
+    tmp_log(n.name);
+  })
+
+  $scope.$watch('local_skps', function (n, w) {
+    tmp_log(n[0].name);
   })
 
   $scope.bridge('initialization', '');
