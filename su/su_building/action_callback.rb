@@ -1,4 +1,5 @@
 Sketchup::require 'json'
+Sketchup::require 'base64'
 
 module ActionCallback
   def register_callbacks(dialog)
@@ -33,9 +34,13 @@ module ActionCallback
     dialog.add_action_callback('initialization') do |action, params|
       model = Sketchup.active_model
       model_name = model.name
+      thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
+      model.save_thumbnail(thumbnail_file_path)
+      base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
+      thumbnail_src = "data:image/png;base64,#{base64string}"
 
       # initiate current_model
-      current_model = {:name => model_name}
+      current_model = {:name => model_name, :thumbnail_src => thumbnail_src}
       update_js_value(dialog, "current_model", current_model.to_json)
     end
 

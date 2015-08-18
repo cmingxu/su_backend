@@ -6,6 +6,10 @@ if(console === undefined){
   console = {}; console.log = function () { };
 }
 
+function tmp_log(content) {
+  $("#tmp_logger").append("<h2>" + content + "</h2>");
+}
+
 var building = angular.module("building", []);
 
 building.controller('main', ["$scope", "$http", "$interval", function ($scope, $http, $interval) {
