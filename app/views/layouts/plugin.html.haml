@@ -9,7 +9,7 @@
     .uk-container.uk-container-center.su-container{'ng-controller' => 'main'}
       .data-channel
         %input#local_skp_names{type: 'hidden', name: '', 'ng-model' => 'local_skp_names'}
-        %input#current_model
+        %input#current_model{type: 'hidden'}
 
       .uk-grid#model_profile
         .uk-width-1-3
@@ -24,7 +24,7 @@
 
       #models
         .uk-width-medium-1-1.su_models_header
-          %ul.uk-tab{'data-uk-tabs' => '{connect: "#tabs"}'}
+          %ul.uk-tab{'data-uk-tab' => '{connect: "#tabs"}'}
             %li.uk-active
               %a{href: ''} 本地
             %li
@@ -37,13 +37,13 @@
               %i.uk-icon-user
 
           %ul#tabs.uk-switcher.uk-margin
-            %li
+            %li.uk-active
               #tmp_logger{style: 'width: 100%; height: 300px; border: 2px solid red;'}
             %li
 
       #ad
 
-      #user_profile
+      #user_profile.uk-container
         %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要注册
         %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要登录
 
