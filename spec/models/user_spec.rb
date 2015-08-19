@@ -15,6 +15,9 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
+#  uuid                   :string(255)
+#  roles                  :string(255)
+#  visible                :boolean          default(TRUE)
 #
 
 require 'rails_helper'

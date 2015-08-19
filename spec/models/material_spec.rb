@@ -9,6 +9,8 @@
 #  price      :decimal(10, )
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  uuid       :string(255)
+#  code       :string(255)
 #
 
 require 'rails_helper'

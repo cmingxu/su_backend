@@ -12,6 +12,9 @@ class Dashboard::EntitiesController < Dashboard::BaseController
 
   def create
     @entity = policy_scope(Entity).new entity_param
+    @entity.is_system = true
+    @entity.visible = true
+
     authorize @entity
     respond_to do |format|
       if @entity.save

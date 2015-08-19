@@ -11,6 +11,9 @@
 #  user_id     :integer
 #  description :text(65535)
 #  icon        :string(255)
+#  uuid        :string(255)
+#  is_system   :boolean          default(FALSE)
+#  visible     :boolean          default(TRUE)
 #
 
 require 'rails_helper'

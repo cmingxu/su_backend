@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     get '/' => 'base#index'
   end
 
+  namespace :api do
+    resources :entities, only: [:index]
+  end
+
 
   devise_for :users, controllers: {
     sessions: 'users/sessions'

@@ -10,6 +10,7 @@
 #  desc       :text(65535)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  uuid       :string(255)
 #
 
 class Vendor < ActiveRecord::Base

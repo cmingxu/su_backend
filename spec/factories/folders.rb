@@ -8,6 +8,8 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  user_id      :integer
+#  uuid         :string(255)
+#  is_system    :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
