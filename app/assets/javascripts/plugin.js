@@ -1,6 +1,9 @@
 //= require jquery
 //= require uikit
 //= require angular
+//= require angular-resource
+//= require plugin/controller
+//= require plugin/service
 
 if(console === undefined){
   console = {}; console.log = function () { };
@@ -12,14 +15,19 @@ function tmp_log(content) {
 
 var building = angular.module("building", []);
 
-building.controller('main', ["$scope", "$http", "$interval", function ($scope, $http, $interval) {
+building.controller('main', ["$scope", "$http", "$interval", "Entity" function ($scope, $http, $interval, Entity) {
   $scope.current_model = {};
   $scope.local_skps = [];
+
+  Entity.get({id: 1}, function (data) {
+    console.log(data);
+  })
 
   $scope.bridge = function (action, param) {
     console.log('bridge  ' + action);
     window.location.href = "skp:" + action + "@" + param;
   }
+
 
   $scope.current_model_name_change = function () {
     $scope.bridge('current_model_name_change', $scope.current_model.name);
