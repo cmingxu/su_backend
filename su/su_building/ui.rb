@@ -7,7 +7,7 @@ class BuildingUI
   TOP = 100
 
   HOST = "http://jghtwl.com:8081"
-  HOST = "http://localhost:3000"
+  #HOST = "http://localhost:3000"
 
   attr_accessor :my_dialog
   attr_accessor :action_callbacks
