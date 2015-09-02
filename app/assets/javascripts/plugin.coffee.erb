@@ -14,22 +14,24 @@ building.config ['$httpProvider', ($httpProvider) ->
 ]
 
 building.config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) ->
-  $urlRouterProvider.when '', "/text"
 
-  $stateProvider.state 'building.text',
-    url: "/test"
-    controller: 'Text'
-    template: '<h1>eee</h1>'
+  $urlRouterProvider.otherwise '/local'
 
-  $stateProvider.state 'building.local',
+
+  $stateProvider.state 'local',
     url: "/local"
     controller: 'Local'
-    templateUrl: '<%= asset_path "local.html" %>'
+    templateUrl: '/assets/local.html'
 
-  $stateProvider.state 'building.system',
+  $stateProvider.state 'system',
     url: "/system"
-    controller: 'system'
+    controller: 'System'
     templateUrl: '<%= asset_path 'system.html' %>'
+
+  $stateProvider.state 'remote',
+    url: "/remote"
+    controller: 'Remote'
+    templateUrl: '<%= asset_path 'remote.html' %>'
 ]
 
 
@@ -40,11 +42,12 @@ building.factory "Entity", ($resource) ->
       isArray: true
   })
 
-building.controller "Local", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+building.controller "Local", ['$scope', ($scope) ->
+  console.log('local')
 ]
 
-building.controller "Text", ['$scope', ($scope) ->
-  console.log 'test'
+building.controller "Remote", ['$scope', ($scope) ->
+  console.log('remote')
 ]
 
 building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
