@@ -4,6 +4,7 @@
     %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
     = javascript_include_tag 'plugin'
     = stylesheet_link_tag 'plugin'
+    = csrf_meta_tag
 
   %body{'ng-app' => 'building'}
     .uk-container.uk-container-center.su-container{'ng-controller' => 'main'}
@@ -37,8 +38,14 @@
 
           %ul#tabs.uk-switcher.uk-margin
             %li.uk-active
-              #tmp_logger{style: 'width: 100%; height: 300px; border: 2px solid red;'}
             %li
+            %li
+              .models
+                .moder_item{'ng-repeat' => "model in system_models track by model.uuid"}
+                  .model_icon
+                  .model_details
+                    {{model.name}}
+                    {{model.folder_name}}
 
       #ad
 

@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  layout false
+  layout "session"
   include SimpleCaptcha::ControllerHelpers
 # before_filter :configure_sign_in_params, only: [:create]
 

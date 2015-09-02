@@ -1,3 +1,4 @@
+json.status "ok"
 json.array! @entities do |entity|
   json.folder_name entity.folder.name
   json.name entity.name
@@ -7,4 +8,5 @@ json.array! @entities do |entity|
   json.created_at entity.created_at
   json.description entity.description
   json.uuid entity.uuid
+  json.icon entity.icon.thumb.url || image_path('model.jpeg')
 end

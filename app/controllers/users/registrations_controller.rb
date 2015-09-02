@@ -1,11 +1,13 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  layout "session"
+
 # before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+   def new
+     super
+   end
 
   # POST /resource
   # def create
