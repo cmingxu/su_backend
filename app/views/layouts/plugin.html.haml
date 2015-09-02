@@ -43,6 +43,7 @@
               .models
                 .moder_item{'ng-repeat' => "model in system_models track by model.uuid"}
                   .model_icon
+                    %img{"ng-src" => "{{model.icon}}" }
                   .model_details
                     {{model.name}}
                     {{model.folder_name}}
