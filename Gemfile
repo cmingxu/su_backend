@@ -45,7 +45,7 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem 'image_suckr'
   gem 'faker'
-  gem 'quiet_assets'
+  #gem 'quiet_assets'
   gem 'better_errors'
   gem 'guard-rspec'
   gem 'guard-livereload'
@@ -73,4 +73,6 @@ gem 'ckeditor_rails'
 gem 'd3-rails'
 gem 'c3-rails'
 gem 'angularjs-rails'
+gem 'angular-rails-templates'
+
 

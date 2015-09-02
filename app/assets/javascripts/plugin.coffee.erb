@@ -1,0 +1,69 @@
+#= require jquery
+#= require angular
+#= require angular-resource
+#= require angular-ui-router
+#= require angular-rails-templates
+#= require_tree ../templates
+
+
+building = angular.module "building", ['ngResource', 'ui.router', 'templates']
+
+building.config ['$httpProvider', ($httpProvider) ->
+  $httpProvider.defaults.headers.common['Content-Type'] = 'application/json'
+  $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
+]
+
+building.config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) ->
+  $urlRouterProvider.when '', "/text"
+
+  $stateProvider.state 'building.text',
+    url: "/test"
+    controller: 'Text'
+    template: '<h1>eee</h1>'
+
+  $stateProvider.state 'building.local',
+    url: "/local"
+    controller: 'Local'
+    templateUrl: '<%= asset_path "local.html" %>'
+
+  $stateProvider.state 'building.system',
+    url: "/system"
+    controller: 'system'
+    templateUrl: '<%= asset_path 'system.html' %>'
+]
+
+
+building.factory "Entity", ($resource) ->
+  $resource("/api/entities/:id", {id: '@id'}, {
+    index:
+      method: 'GET'
+      isArray: true
+  })
+
+building.controller "Local", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+]
+
+building.controller "Text", ['$scope', ($scope) ->
+  console.log 'test'
+]
+
+building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+  $scope.current_model = {}
+  $scope.system_models = {}
+  Entity.index (data) ->
+    $scope.system_models = data
+    console.log data
+
+]
+
+building.controller "Main", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+  $scope.current_model = {}
+
+  $scope.bridge = (action, param) ->
+    console.log 'bridge' + action
+    window.location.href = "skp:" + action + "@" + param
+
+  $scope.current_model_name_change = () ->
+    $scope.bridge "current_model_name_change", $scope.current_model.name
+]
+

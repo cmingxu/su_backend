@@ -3,3 +3,4 @@
 
 asset 'undercore'
 asset 'moment'
+asset 'angular-ui-router'
