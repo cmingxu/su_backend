@@ -11,14 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
-//= require uikit
 //= require c3
 //
 
-$(document).ready(function () {
-  $('.ckeditor').ckeditor({
-  });
-});
