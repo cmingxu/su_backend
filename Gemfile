@@ -75,5 +75,6 @@ gem 'c3-rails'
 gem 'angularjs-rails'
 gem 'angular-rails-templates'
 gem 'therubyracer' 
+gem 'coffee-script-source'
 
 

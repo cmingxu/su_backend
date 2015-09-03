@@ -322,6 +322,7 @@ DEPENDENCIES
   carrierwave
   ckeditor_rails
   coffee-rails (~> 4.1.0)
+  coffee-script-source
   d3-rails
   devise
   factory_girl_rails
