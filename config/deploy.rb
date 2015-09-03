@@ -66,13 +66,14 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
+    #invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
       queue  %[echo "copying files"]
-      queue "cp #{deploy_to}/#{current_path}/su/su.zip #{deploy_to}/#{current_path}/public/gjzg.zip"
+      #queue "cp #{deploy_to}/#{current_path}/su/su.zip #{deploy_to}/#{current_path}/public/gjzg.zip"
     end
 
   end
