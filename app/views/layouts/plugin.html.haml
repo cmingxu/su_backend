@@ -19,8 +19,8 @@
             %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{'ng-model' => "current_model.name", 'ng-change' => "current_model_name_change()"}
             .uk-clearfix
           #action_bar
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right{"disabled" => "{{!current_model.name}}"} 替换
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('save_current_model')", "disabled" => "!current_model.name"} 保存
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right{"ng-disabled" => "{{!current_model.name}}"} 替换
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('save_current_model')", "ng-disabled" => "!current_model.name"} 保存
 
       #models
         %ui-view

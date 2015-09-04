@@ -13,7 +13,20 @@
 
   %ul#tabs.uk-switcher.uk-margin
     %li.uk-active
+      .models.su_local_models
+        .model_item{'ng-repeat' => "model in local_models"}
+          .model_icon
+            %img{"ng-src" => "{{model.icon}}", width: 60, height: 60 }
+          .model_details
+            .model_name
+              %strong {{model.name}}
+            .model_desc
+              %span.model_size
+                {{model.skp_file_size}}
+              %span.model_buttons.uk-float-right
+                %button.uk-button.uk-button-success 替换
+                %button.uk-button.uk-button-success{"ng-click" => "remove_local_model(model.name)"} 删除
+            .model_created_time
+              {{model.created_at_normal}}
     %li
     %li
-      .models.su_system_models
-        locals

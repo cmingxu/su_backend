@@ -2,15 +2,20 @@ Sketchup::require 'json'
 Sketchup::require 'base64'
 
 module ActionCallback
+  def local_models
+    Dir.glob($SKP_PATH + "/*").map do |f|
+      {
+        :name => File.basename(f),
+        :skp_file_size => File.stat(f).size,
+        :created_at_normal => File.stat(f).ctime.strftime("%m月%d日"),
+        :icon => "/assets/model.jpg"
+      }
+    end
+  end
+
   def register_callbacks(dialog)
     dialog.add_action_callback('logger') do |action, params|
       $logger.debug params
-    end
-
-    dialog.add_action_callback('update_model_name') do |action, params|
-      model = Sketchup.active_model
-      $logger.debug params
-      model.name = params
     end
 
     dialog.add_action_callback('list_local_skps') do |action, params|
@@ -31,6 +36,12 @@ module ActionCallback
       model.name = params
     end
 
+    dialog.add_action_callback('remove_local_model') do |action, params|
+      $logger.debug "remove model #{params}"
+      FileUtils.rm_rf File.join($SKP_PATH, params)
+      update_js_value(dialog, "local_models", local_models.to_json)
+    end
+
     dialog.add_action_callback('initialization') do |action, params|
       model = Sketchup.active_model
       model_name = model.name
@@ -44,15 +55,8 @@ module ActionCallback
       update_js_value(dialog, "current_model", current_model.to_json)
 
       # initiate local skps files
-      local_skps = Dir.glob($SKP_PATH + "/*").map do |f|
-        {
-          :name => File.basename(f),
-          :size => File.stat(f).size
-        }
-      end
-      update_js_value(dialog, "local_skps", local_skps.to_json)
+      update_js_value(dialog, "local_models", local_models.to_json)
     end
-
   end
 
   def update_js_value(dialog, id, new_val)

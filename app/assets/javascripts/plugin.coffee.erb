@@ -59,8 +59,9 @@ building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope
 
 ]
 
-building.controller "Main", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+building.controller "Main", ['$scope', '$http', '$timeout', "Entity", ($scope, $http, $timeout, Entity) ->
   $scope.current_model = {}
+  $scope.local_models = []
 
   $scope.bridge = (action, param) ->
     console.log 'bridge' + action
@@ -68,5 +69,15 @@ building.controller "Main", ['$scope', '$http', '$interval', "Entity", ($scope, 
 
   $scope.current_model_name_change = () ->
     $scope.bridge "current_model_name_change", $scope.current_model.name
+
+  $scope.remove_local_model = (model_name) ->
+    $scope.bridge "remove_local_model", model_name
+
+  $scope.bingo = (a) ->
+    alert a
+
+  $timeout ()->
+    $scope.bridge 'initialization'
+    , 100
 ]
 
