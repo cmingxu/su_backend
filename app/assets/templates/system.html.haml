@@ -28,6 +28,6 @@
               %span.model_size
                 {{model.skp_file_size}}
               %span.model_buttons.uk-float-right
-                %button.uk-button.uk-button-success 下载
+                %button.uk-button.uk-button-success{"ng-click" => "download_from_system(model.skp_file + '|' + model.icon)"} 下载
             .model_created_time
               {{model.created_at_normal}}

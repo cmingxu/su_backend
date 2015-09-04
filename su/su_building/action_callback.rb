@@ -1,16 +1,30 @@
 Sketchup::require 'json'
 Sketchup::require 'base64'
+Sketchup::require 'open-uri'
 
 module ActionCallback
+  def base64_icon(icon_path)
+    return "" if icon_path == ""
+    base64string = Base64.encode64(File.read(icon_path)).gsub("\n", "")
+    "data:image/png;base64,#{base64string}"
+  end
+
   def local_models
     Dir.glob($SKP_PATH + "/*").map do |f|
+      icon_path = File.join($TMP_FILE_PATH, File.basename(f).split(".")[0] + ".png")
       {
         :name => File.basename(f),
         :skp_file_size => File.stat(f).size,
         :created_at_normal => File.stat(f).ctime.strftime("%m月%d日"),
-        :icon => "/assets/model.jpg"
+        :icon => base64_icon(File.exists?(icon_path) ? icon_path : "")
       }
     end
+  end
+
+  def update_js_value(dialog, id, new_val)
+    js_command = "var dom = document.getElementById('data_transfer_channel'); var scope = angular.element(dom).scope(); scope.$apply(function() { scope.#{id} = JSON.parse('#{new_val}');});"
+    $logger.debug js_command
+    dialog.execute_script(js_command)
   end
 
   def register_callbacks(dialog)
@@ -25,18 +39,42 @@ module ActionCallback
       update_js_value(dialog, "skp_names", files.join(","))
     end
 
-    dialog.add_action_callback('save_current_model') do |action, params|
+    dialog.add_action_callback('save_current_component_definition') do |action, params|
       model = Sketchup.active_model
-      model.save File.join($SKP_PATH, "#{model.name}.skp")
+      current_entity = model.selection.first
+      if current_entity.is_a?(Sketchup::ComponentInstance) && current_entity.definition.name
+        current_entity.definition.save_as File.join($SKP_PATH, "#{current_entity.definition.name}.skp")
+        thumbnail_file_path = File.join($TMP_FILE_PATH, "#{current_entity.definition.name}.png")
+        current_entity.definition.refresh_thumbnail
+        current_entity.definition.save_thumbnail(thumbnail_file_path)
+
+        update_js_value(dialog, "local_models", local_models.to_json)
+      end
     end
 
-    dialog.add_action_callback('current_model_name_change') do |action, params|
+    dialog.add_action_callback('current_component_definition_name_change') do |action, params|
       $logger.debug "updating name to #{params}"
       model = Sketchup.active_model
-      model.name = params
+      current_entity = model.selection.first
+      if current_entity.is_a?(Sketchup::ComponentInstance)
+        current_entity.definition.name = params
+      end
     end
 
-    dialog.add_action_callback('remove_local_model') do |action, params|
+    dialog.add_action_callback('replace_by_name') do |action, params|
+      $logger.debug "replace active_model by model #{params}"
+      model = Sketchup.active_model
+      $logger.debug model.bounds
+      $logger.debug model.bounds.corner(0)
+      $logger.debug model.entities[0]
+      $logger.debug model.entities[0].class
+      path = Sketchup.find_support_file(File.join($SKP_PATH, params))
+      $logger.debug path
+      definitions = model.definitions
+      componentdefinition = definitions.load path
+    end
+
+    dialog.add_action_callback('remove_local_component_definition') do |action, params|
       $logger.debug "remove model #{params}"
       FileUtils.rm_rf File.join($SKP_PATH, params)
       update_js_value(dialog, "local_models", local_models.to_json)
@@ -44,28 +82,48 @@ module ActionCallback
 
     dialog.add_action_callback('initialization') do |action, params|
       model = Sketchup.active_model
-      model_name = model.name
+      selection = model.selection.first
+      current_entity = {}
+      case selection
+      when NilClass
+      when Sketchup::Edge
+        current_entity = {:name => "Edge", :thumbnail_src => 'thumbnail.png', :type => "edge"}
+      when Sketchup::ComponentInstance
+        component_definition  = selection.definition
+        thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
+        component_definition.refresh_thumbnail
+        component_definition.save_thumbnail(thumbnail_file_path)
+        base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
+        thumbnail_src = "data:image/png;base64,#{base64string}"
+        current_entity = {:name => component_definition.name, :thumbnail_src => thumbnail_src, :type => "component_definition"}
+      when Sketchup::Group
+      when Sketchup::Face
+      end
 
       # initiate current_model
-      thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
-      model.save_thumbnail(thumbnail_file_path)
-      base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
-      thumbnail_src = "data:image/png;base64,#{base64string}"
-      current_model = {:name => model_name, :thumbnail_src => thumbnail_src}
-      update_js_value(dialog, "current_model", current_model.to_json)
+      update_js_value(dialog, "current_entity", current_entity.to_json)
 
       # initiate local skps files
       update_js_value(dialog, "local_models", local_models.to_json)
     end
+
+    dialog.add_action_callback('download_from_system') do |action, params|
+      skp_file_path = params.split('|')[0]
+      f = File.open(File.join($SKP_PATH, "s_#{File.basename(skp_file_path)}"), "w")
+      f << open(BuildingUI::HOST + skp_file_path).read
+      f.close
+
+      icon_file_path = params.split('|')[1]
+      f = File.open(File.join($TMP_FILE_PATH, "s_#{File.basename(icon_file_path)}"), "w")
+      f << open(BuildingUI::HOST + icon_file_path).read
+      f.close
+
+      update_js_value(dialog, "local_models", local_models.to_json)
+    end
   end
 
-  def update_js_value(dialog, id, new_val)
-    js_command = "var dom = document.getElementById('data_transfer_channel'); var scope = angular.element(dom).scope(); scope.$apply(function() { scope.#{id} = JSON.parse('#{new_val}');});"
-    $logger.debug js_command
-    dialog.execute_script(js_command)
-  end
 
-  module_function :update_js_value, :register_callbacks
+  module_function :update_js_value, :register_callbacks, :local_models, :base64_icon
 end
 
 
