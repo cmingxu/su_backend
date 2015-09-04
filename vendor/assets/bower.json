@@ -1,10 +1,10 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
-    "undercore": "latest",
     "moment": "latest",
-    "angular-ui-router": "latest"
-  },
-  "resolutions": {
+    "angular-ui-router": "latest",
+    "angular-cookies": "latest",
+    "angular-local-storage": "latest",
+    "angular-resource": "latest"
   }
 }

@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  after_create do
+    self.update_column :auth_token, SecureRandom.hex(16)
+  end
+
   has_many :folders
   has_many :entities
 

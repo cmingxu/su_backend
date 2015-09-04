@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150724010836) do
+ActiveRecord::Schema.define(version: 20150904141948) do
 
   create_table "entities", force: :cascade do |t|
     t.integer  "folder_id",   limit: 4
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20150724010836) do
     t.string   "uuid",                   limit: 255
     t.string   "roles",                  limit: 255
     t.boolean  "visible",                limit: 1,   default: true
+    t.string   "auth_token",             limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

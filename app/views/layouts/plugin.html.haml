@@ -30,8 +30,11 @@
       #ad
 
       #user_profile.uk-container
-        %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要注册
-        %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right 我要登录
+        {{CurrentUser.isLogin()}}
+        {{CurrentUser.authToken()}}
+        %div{"ng-show" => "!CurrentUser.isLogin()"}
+          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ui-sref" => "register"} 我要注册
+          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ui-sref" => "login"} 我要登录
 
 
 

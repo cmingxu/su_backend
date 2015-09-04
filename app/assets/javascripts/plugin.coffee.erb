@@ -2,11 +2,13 @@
 #= require angular
 #= require angular-resource
 #= require angular-ui-router
+#= require angular-cookies
+#= require angular-local-storage
 #= require angular-rails-templates
 #= require_tree ../templates
 
 
-building = angular.module "building", ['ngResource', 'ui.router', 'templates']
+building = angular.module "building", ['ngResource', 'ui.router', 'templates', 'ngCookies', 'LocalStorageModule' ]
 
 building.config ['$httpProvider', ($httpProvider) ->
   $httpProvider.defaults.headers.common['Content-Type'] = 'application/json'
@@ -16,7 +18,6 @@ building.config ['$httpProvider', ($httpProvider) ->
 building.config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) ->
 
   $urlRouterProvider.otherwise '/local'
-
 
   $stateProvider.state 'local',
     url: "/local"
@@ -32,6 +33,16 @@ building.config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRo
     url: "/remote"
     controller: 'Remote'
     templateUrl: '<%= asset_path 'remote.html' %>'
+
+  $stateProvider.state 'login',
+    url: "/login"
+    controller: 'Login'
+    templateUrl: '<%= asset_path 'login.html' %>'
+
+  $stateProvider.state 'register',
+    url: "/register"
+    controller: 'Register'
+    templateUrl: '<%= asset_path 'register.html' %>'
 ]
 
 
@@ -42,12 +53,62 @@ building.factory "Entity", ($resource) ->
       isArray: true
   })
 
+building.constant 'CURRENT_USER', 'currentUser'
+
+building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USER', ($cookies, localStorageService, CURRENT_USER) ->
+    currentUser = {}
+
+    currentUser.getUserInfo  = -> localStorageService.get(CURRENT_USER)
+    currentUser.setUserInfo  = (userInfo) -> localStorageService.set(CURRENT_USER, userInfo)
+    currentUser.isLogin      = -> $cookies.auth_token? and localStorageService.get(CURRENT_USER)?
+    currentUser.destroy      = -> localStorageService.remove(CURRENT_USER)
+    currentUser.hasAuthToken = -> $cookies.auth_token?
+    currentUser.authToken    = -> $cookies.auth_token
+
+    currentUser.missingAccountInfo = ->
+      currentUser = localStorageService.get(CURRENT_USER)
+      (currentUser.email) is null
+
+    currentUser
+  ]
+
+
 building.controller "Local", ['$scope', ($scope) ->
   console.log('local')
 ]
 
 building.controller "Remote", ['$scope', ($scope) ->
   console.log('remote')
+]
+
+building.controller "Login", ['$scope', ($scope) ->
+  console.log('login')
+  $scope.current_user = {}
+  $scope.login = ()->
+    console.log $scope.current_user
+
+]
+
+building.controller "Register", ['$scope', '$http', ($scope, $http) ->
+  console.log('register')
+  $scope.current_user = {}
+  $scope.register = ()->
+    if !$scope.current_user.email or !$scope.current_user.email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
+      alert "邮箱格式不正确"
+      return
+    if !$scope.current_user.password
+      alert "密码不正确"
+      return
+    if $scope.current_user.password != $scope.current_user.password_confirmation
+      alert "两次密码不一致"
+      return
+
+    $http.post("/api/users", {user: $scope.current_user}).success (response) ->
+      if response.status == "fail"
+        alert response.message
+      else
+        window.location.hash = "/local"
+
 ]
 
 building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
@@ -59,7 +120,8 @@ building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope
 
 ]
 
-building.controller "Main", ['$scope', '$http', '$timeout', "Entity", ($scope, $http, $timeout, Entity) ->
+building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUser", ($scope, $http, $timeout, Entity, CurrentUser) ->
+  $scope.CurrentUser = CurrentUser
   $scope.current_entity = {}
   $scope.local_models = []
 
