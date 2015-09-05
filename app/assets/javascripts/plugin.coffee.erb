@@ -74,7 +74,6 @@ building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USE
 
 
 building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
-  console.log('local')
 
   $scope.c = ->
     $cookies.getAll()
@@ -87,11 +86,9 @@ building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, Curr
 ]
 
 building.controller "Remote", ['$scope', ($scope) ->
-  console.log('remote')
 ]
 
 building.controller "Login", ['$scope', '$http', ($scope, $http) ->
-  console.log('login')
   $scope.current_user = {}
   $scope.login = ()->
     if !$scope.current_user.email or !$scope.current_user.email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
@@ -109,7 +106,6 @@ building.controller "Login", ['$scope', '$http', ($scope, $http) ->
 ]
 
 building.controller "Register", ['$scope', '$http', ($scope, $http) ->
-  console.log('register')
   $scope.current_user = {}
   $scope.register = ()->
     if !$scope.current_user.email or !$scope.current_user.email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
@@ -135,7 +131,6 @@ building.controller "System", ['$scope', '$http', '$interval', "Entity", ($scope
   $scope.system_models = {}
   Entity.index (data) ->
     $scope.system_models = data
-    console.log data
 
 ]
 
@@ -145,7 +140,6 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
   $scope.local_models = []
 
   $scope.bridge = (action, param) ->
-    console.log 'bridge' + action
     window.location.href = "skp:" + action + "@" + param
 
   $scope.current_component_definition_name_change = () ->
