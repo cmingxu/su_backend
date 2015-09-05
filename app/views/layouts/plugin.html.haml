@@ -30,11 +30,12 @@
       #ad
 
       #user_profile.uk-container
-        {{CurrentUser.isLogin()}}
-        {{CurrentUser.authToken()}}
         %div{"ng-show" => "!CurrentUser.isLogin()"}
           %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ui-sref" => "register"} 我要注册
           %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ui-sref" => "login"} 我要登录
 
+        %div{"ng-show" => "CurrentUser.isLogin()"}
+          .uk-alert.uk-alert-success 构建中国 cming.xu@gmail.com
+          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ng-click" => "sign_out()"} 退出
 
 

@@ -28,8 +28,14 @@ Rails.application.routes.draw do
   end
 
   namespace :api, defaults: { format: :json } do
-    resources :entities, only: [:index]
-    resources :users, only: [:create]
+    resources :entities, only: [:index, :create] do
+      get :mine, on: :collection
+    end
+
+    resources :users, only: [:create] do
+      post :login, on: :collection
+      delete :sign_out, on: :collection
+    end
   end
 
 

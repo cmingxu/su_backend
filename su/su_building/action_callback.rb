@@ -1,6 +1,7 @@
 Sketchup::require 'json'
 Sketchup::require 'base64'
 Sketchup::require 'open-uri'
+Sketchup::require 'net/http'
 
 module ActionCallback
   def base64_icon(icon_path)
@@ -62,22 +63,34 @@ module ActionCallback
     end
 
     dialog.add_action_callback('replace_by_name') do |action, params|
-      $logger.debug "replace active_model by model #{params}"
-      model = Sketchup.active_model
-      $logger.debug model.bounds
-      $logger.debug model.bounds.corner(0)
-      $logger.debug model.entities[0]
-      $logger.debug model.entities[0].class
-      path = Sketchup.find_support_file(File.join($SKP_PATH, params))
-      $logger.debug path
-      definitions = model.definitions
-      componentdefinition = definitions.load path
+      #$logger.debug "replace active_model by model #{params}"
+      #model = Sketchup.active_model
+      #path = Sketchup.find_support_file(File.join($SKP_PATH, params))
+      #$logger.debug path
+      #definitions = model.definitions
+      #componentdefinition = definitions.load path
     end
 
     dialog.add_action_callback('remove_local_component_definition') do |action, params|
       $logger.debug "remove model #{params}"
       FileUtils.rm_rf File.join($SKP_PATH, params)
       update_js_value(dialog, "local_models", local_models.to_json)
+    end
+
+    dialog.add_action_callback('upload_local_model') do |action, params|
+      $logger.debug "upload model #{params}"
+      $logger.debug "model name #{params.split("||")[0]}"
+      $logger.debug "cookies name #{params.split("||")[1]}"
+
+      model_name = params.split("||")[0]
+      auth_token = params.split("||")[1]
+
+      uri = URI(BuildingUI::HOST + "/api/entities")
+      http = Net::HTTP.new(uri.host, uri.port)
+      req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json', 'Auth-Token' => auth_token})
+      req.body = {entity: { name: model_name, file_content: Base64.encode64(File.read(File.join($SKP_PATH, model_name)))  }}.to_json
+      res = http.request(req)
+      puts "response #{res.body}"
     end
 
     dialog.add_action_callback('initialization') do |action, params|

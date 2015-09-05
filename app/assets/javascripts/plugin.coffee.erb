@@ -60,10 +60,10 @@ building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USE
 
     currentUser.getUserInfo  = -> localStorageService.get(CURRENT_USER)
     currentUser.setUserInfo  = (userInfo) -> localStorageService.set(CURRENT_USER, userInfo)
-    currentUser.isLogin      = -> $cookies.auth_token? and localStorageService.get(CURRENT_USER)?
+    currentUser.isLogin      = -> $cookies.get('auth_token')? #and localStorageService.get(CURRENT_USER)?
     currentUser.destroy      = -> localStorageService.remove(CURRENT_USER)
-    currentUser.hasAuthToken = -> $cookies.auth_token?
-    currentUser.authToken    = -> $cookies.auth_token
+    currentUser.hasAuthToken = -> $cookies.get('auth_token')?
+    currentUser.authToken    = -> $cookies.get('auth_token')
 
     currentUser.missingAccountInfo = ->
       currentUser = localStorageService.get(CURRENT_USER)
@@ -73,20 +73,39 @@ building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USE
   ]
 
 
-building.controller "Local", ['$scope', ($scope) ->
+building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
   console.log('local')
+
+  $scope.c = ->
+    $cookies.getAll()
+
+  $scope.upload_local_model = (model) ->
+    alert(model)
+    alert(CurrentUser.authToken())
+
+    $scope.bridge "upload_local_model", model + "||" + CurrentUser.authToken()
 ]
 
 building.controller "Remote", ['$scope', ($scope) ->
   console.log('remote')
 ]
 
-building.controller "Login", ['$scope', ($scope) ->
+building.controller "Login", ['$scope', '$http', ($scope, $http) ->
   console.log('login')
   $scope.current_user = {}
   $scope.login = ()->
-    console.log $scope.current_user
+    if !$scope.current_user.email or !$scope.current_user.email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)
+      alert "邮箱格式不正确"
+      return
+    if !$scope.current_user.password
+      alert "密码不正确"
+      return
 
+    $http.post("/api/users/login", {user: $scope.current_user}).success (response) ->
+      if response.status == "fail"
+        alert response.message
+      else
+        window.location.hash = "/local"
 ]
 
 building.controller "Register", ['$scope', '$http', ($scope, $http) ->
@@ -143,8 +162,9 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
   $scope.replace_by_name = (model_name) ->
     $scope.bridge "replace_by_name", model_name
 
-  $scope.bingo = (a) ->
-    alert a
+  $scope.sign_out = ->
+    $http.delete("/api/users/sign_out").success (response) ->
+      window.location.hash = "/login"
 
   $timeout ()->
     $scope.bridge 'initialization'

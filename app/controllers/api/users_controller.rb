@@ -15,7 +15,8 @@ class Api::UsersController < Api::BaseController
 
     @user = User.new(user_param)
     if @user.save
-      cookies.permanent.signed[:auth_token] = @user.auth_token
+      cookies[:auth_token] = @user.auth_token
+      session[:user_id] = @user.id
       response_success
     else
       response_fail(@user.errors.full_messages.first)
@@ -24,11 +25,18 @@ class Api::UsersController < Api::BaseController
 
   def login
     @user = User.find_by_email params[:user][:email]
-    if @user && @user.password_valid?(params[:user][:password])
-      cookies.permanent.signed[:auth_token] = @user.auth_token
+    if @user && @user.valid_password?(params[:user][:password])
+      cookies[:auth_token] = @user.auth_token
+      session[:user_id] = @user.id
+      response_success
     else
       response_fail "用户不存在或者密码不正确"
     end
+  end
+
+  def sign_out
+    cookies.delete(:auth_token)
+    response_success "See You"
   end
 
   def user_param
