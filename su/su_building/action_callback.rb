@@ -11,13 +11,14 @@ module ActionCallback
   end
 
   def local_models
-    Dir.glob($SKP_PATH + "/*").map do |f|
+    Dir.glob($SKP_PATH + File::Separator + "*").map do |f|
       icon_path = File.join($TMP_FILE_PATH, File.basename(f).split(".")[0] + ".png")
       {
         :name => File.basename(f),
         :skp_file_size => File.stat(f).size,
         :created_at_normal => File.stat(f).ctime.strftime("%m月%d日"),
-        :icon => base64_icon(File.exists?(icon_path) ? icon_path : "")
+        :icon => base64_icon(File.exists?(icon_path) ? icon_path : ""),
+        :path => f
       }
     end
   end
@@ -34,7 +35,7 @@ module ActionCallback
     end
 
     dialog.add_action_callback('list_local_skps') do |action, params|
-      files = Dir.glob($SKP_PATH + "/*").map do |f|
+      files = Dir.glob($SKP_PATH + File::Separator + "*").map do |f|
         File.basename(f)
       end
       update_js_value(dialog, "skp_names", files.join(","))

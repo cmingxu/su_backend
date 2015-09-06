@@ -20,7 +20,7 @@ FileUtils.chmod(0777, $SKP_PATH)
 # load required rb files
 
 ## Logger
-$TMP_FILE_PATH = $ROOT_PATH + "/tmp"
+$TMP_FILE_PATH = File.join($ROOT_PATH,  "tmp")
 FileUtils.mkdir_p($TMP_FILE_PATH) if !File.exists?($TMP_FILE_PATH)
 FileUtils.chmod(0777, $TMP_FILE_PATH)
 # setup logger for logging purpose
