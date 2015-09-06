@@ -104,12 +104,14 @@ module ActionCallback
         current_entity = {:name => "Edge", :thumbnail_src => 'thumbnail.png', :type => "edge"}
       when Sketchup::ComponentInstance
         component_definition  = selection.definition
+        dynamic_attributes = selection.attribute_dictionary("dynamic_attributes")
+        component_definition_name = dynamic_attributes["_name"] if dynamic_attributes
         thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
         component_definition.refresh_thumbnail
         component_definition.save_thumbnail(thumbnail_file_path)
         base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
         thumbnail_src = "data:image/png;base64,#{base64string}"
-        current_entity = {:name => component_definition.name, :thumbnail_src => thumbnail_src, :type => "component_definition"}
+        current_entity = {:name => component_definition_name || component_definition.name, :thumbnail_src => thumbnail_src, :type => "component_definition"}
       when Sketchup::Group
       when Sketchup::Face
       end
@@ -119,6 +121,41 @@ module ActionCallback
 
       # initiate local skps files
       update_js_value(dialog, "local_models", local_models.to_json)
+    end
+
+    dialog.add_action_callback('list_attribute_dictionaries') do |action, params|
+      model = Sketchup.active_model
+      current_entity = model.selection.first
+      if current_entity
+        current_entity.attribute_dictionaries.each do |dict|
+          $logger.debug "1111111111 #{dict.name}"
+          dict.each_pair do |k, v|
+            $logger.debug "#{k} => #{v}"
+          end
+        end
+      end
+
+      current_entity.definition.entities.each do |sub_compo_def|
+        sub_compo_def.attribute_dictionaries.each do |dict|
+          $logger.debug "xxxxx1111111111 #{dict.name}"
+          dict.each_pair do |k, v|
+            $logger.debug "xxxxxxx   #{k} => #{v}"
+          end
+        end
+      end
+    end
+
+    dialog.add_action_callback('insert_component_definition') do |action, params|
+      #point = Geom::Point3d.new 10,20,30
+      #transform = Geom::Transformation.new point
+      #model = Sketchup.active_model
+      #entities = model.active_entities
+      #path = Sketchup.find_support_file "Bed.skp",
+      #"Components/Components Sampler/"
+      #definitions = model.definitions
+      #componentdefinition = definitions.load path
+      #instance = entities.add_instance componentdefinition, transform
+      #point = componentdefinition.insertion_point
     end
 
     dialog.add_action_callback('download_from_system') do |action, params|

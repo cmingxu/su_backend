@@ -21,6 +21,7 @@
           #action_bar
             %button.uk-button.uk-button-small.uk-primary.uk-float-right{"ng-disabled" => "{{current_entity.type != 'edge'}}"} 替换
             %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('save_current_component_definition')", "ng-disabled" => "{{!current_entity.name && current_entity.type == 'component_definition'}}"} 保存
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('list_attribute_dictionaries')", "ng-disabled" => "{{current_entity.type == 'component_definition'}}"} 属性
         .uk-width-3-3{"ng-show" => "!current_entity.type"}
           .uk-alert.uk-alert-success 请选择一个模型
 
