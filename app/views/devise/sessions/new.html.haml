@@ -1,8 +1,8 @@
 = form_for(resource, as: resource_name, url: session_path(resource_name), class: "uk-panel uk-panel-box uk-form") do |f|
   .uk-form-row
-    = f.email_field :email, autofocus: true, class: "uk-width-1-1 uk-form-large"
+    = f.email_field :email, autofocus: true, class: "uk-width-1-1 uk-form-large", placeholder: "请输入邮箱"
   .uk-form-row
-    = f.password_field :password, autocomplete: "off", class: "uk-width-1-1 uk-form-large"
+    = f.password_field :password, autocomplete: "off", class: "uk-width-1-1 uk-form-large", placeholder: "请输入密码"
   .uk-form-row
     = text_field_tag :captcha, "", class: "uk-width-1-2 uk-form-large uk-float-left"
     = show_simple_captcha

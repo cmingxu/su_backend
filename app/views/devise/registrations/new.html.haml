@@ -2,11 +2,11 @@
   .uk-form-row
     = devise_error_messages!
   .uk-form-row
-    = f.email_field :email, autofocus: true, class: 'uk-width-1-1 uk-form-large'
+    = f.email_field :email, autofocus: true, class: 'uk-width-1-1 uk-form-large', placeholder: "请输入邮箱"
   .uk-form-row
-    = f.password_field :password, autocomplete: "off", class: 'uk-width-1-1 uk-from-large'
+    = f.password_field :password, autocomplete: "off", class: 'uk-width-1-1 uk-from-large', placeholder: "输入密码"
   .uk-form-row
-    = f.password_field :password_confirmation, autocomplete: "off"
+    = f.password_field :password_confirmation, autocomplete: "off", placeholder: "再次输入密码"
     .uk-form-row
     = f.submit "注册", class: 'ul-width-1-1 uk-button uk-button-primary uk-button-large'
 -#= render "devise/shared/links"
