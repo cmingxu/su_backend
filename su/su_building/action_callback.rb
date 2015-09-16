@@ -77,11 +77,9 @@ module ActionCallback
         path = Sketchup.find_support_file params, File.join("plugins", "su_building", "skps")
         componentdefinition = model.definitions.load path
         $logger.debug componentdefinition
-        instance = model.active_entities.add_instance componentdefinition, Geom::Transformation.new(edge.line[0])
-        #x, y, z = [edge.line[1].x, edge.line[1].y, edge.line[1].z]
-        #instance.transform! instance.transformation * Geom::Point3d.new(x, 0, 0)
-        #instance.transform! instance.transformation * Geom::Point3d.new(0, y, 0)
-        #instance.transform! instance.transformation * Geom::Point3d.new(0, 0, z)
+        #instance = model.active_entities.add_instance componentdefinition, Geom::Transformation.new(edge.line[0])
+        x, y, z = [edge.line[1].x, edge.line[1].y, edge.line[1].z]
+        model.active_entities.add_instance componentdefinition, Geom::Transformation.axes(edge.line[0], Geom::Vector3d.new(x, 1, 1), Geom::Vector3d.new(1, y, 1), Geom::Vector3d.new(1, 1, z))
       else
         $logger.debug "should replace a edge "
       end
