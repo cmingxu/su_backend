@@ -14,6 +14,7 @@ $ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), "su_building"))
 $LOAD_PATH.push($ROOT_PATH)
 
 $SKP_PATH = File.expand_path(File.join($ROOT_PATH , "skps"))
+$INSTALL_PATH = File.expand_path(File.join($ROOT_PATH , "..", ".."))
 FileUtils.mkdir_p($SKP_PATH) if !File.exists?($SKP_PATH)
 FileUtils.chmod(0777, $SKP_PATH)
 

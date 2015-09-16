@@ -68,15 +68,23 @@ module ActionCallback
     dialog.add_action_callback('add_by_name') do |action, params|
       $logger.debug "replace active_model by model #{params}"
       model = Sketchup.active_model
-      path = Sketchup.find_support_file("CQfm000kk3A01.skp", $SKP_PATH)
+      $logger.debug model.selection
+      edge = model.selection.first
+      $logger.debug edge.class
 
-      $logger.debug path
-      definitions = model.definitions
-      componentdefinition = definitions.load path
-      point = Geom::Point3d.new 10,20,30
-      transform = Geom::Transformation.new point
-      instance = entities.add_instance componentdefinition, transform
-      point = componentdefinition.insertion_point
+      if edge.is_a?(Sketchup::Edge)
+        $logger.debug 'generation'
+        path = Sketchup.find_support_file params, File.join("plugins", "su_building", "skps")
+        componentdefinition = model.definitions.load path
+        $logger.debug componentdefinition
+        instance = model.active_entities.add_instance componentdefinition, Geom::Transformation.new(edge.line[0])
+        #x, y, z = [edge.line[1].x, edge.line[1].y, edge.line[1].z]
+        #instance.transform! instance.transformation * Geom::Point3d.new(x, 0, 0)
+        #instance.transform! instance.transformation * Geom::Point3d.new(0, y, 0)
+        #instance.transform! instance.transformation * Geom::Point3d.new(0, 0, z)
+      else
+        $logger.debug "should replace a edge "
+      end
     end
 
     dialog.add_action_callback('replace_by_name') do |action, params|
