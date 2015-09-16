@@ -44,8 +44,10 @@ module ActionCallback
     dialog.add_action_callback('save_current_component_definition') do |action, params|
       model = Sketchup.active_model
       current_entity = model.selection.first
+      dynamic_attributes = current_entity.attribute_dictionary("dynamic_attributes")
+      component_definition_name = dynamic_attributes["_name"] if dynamic_attributes
       if current_entity.is_a?(Sketchup::ComponentInstance) && current_entity.definition.name
-        current_entity.definition.save_as File.join($SKP_PATH, "#{current_entity.definition.name}.skp")
+        current_entity.definition.save_as File.join($SKP_PATH, "#{component_definition_name}.skp")
         thumbnail_file_path = File.join($TMP_FILE_PATH, "#{current_entity.definition.name}.png")
         current_entity.definition.refresh_thumbnail
         current_entity.definition.save_thumbnail(thumbnail_file_path)
@@ -61,6 +63,20 @@ module ActionCallback
       if current_entity.is_a?(Sketchup::ComponentInstance)
         current_entity.definition.name = params
       end
+    end
+
+    dialog.add_action_callback('add_by_name') do |action, params|
+      $logger.debug "replace active_model by model #{params}"
+      model = Sketchup.active_model
+      path = Sketchup.find_support_file("CQfm000kk3A01.skp", $SKP_PATH)
+
+      $logger.debug path
+      definitions = model.definitions
+      componentdefinition = definitions.load path
+      point = Geom::Point3d.new 10,20,30
+      transform = Geom::Transformation.new point
+      instance = entities.add_instance componentdefinition, transform
+      point = componentdefinition.insertion_point
     end
 
     dialog.add_action_callback('replace_by_name') do |action, params|

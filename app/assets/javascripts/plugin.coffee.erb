@@ -16,8 +16,11 @@ building.config ['$httpProvider', ($httpProvider) ->
 ]
 
 building.config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) ->
-
-  $urlRouterProvider.otherwise '/local'
+  $urlRouterProvider.otherwise '/attributes'
+  $stateProvider.state 'attributes',
+    url: "/attributes"
+    controller: 'Attributes'
+    templateUrl: '/assets/attributes.html'
 
   $stateProvider.state 'local',
     url: "/local"
@@ -72,8 +75,13 @@ building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USE
     currentUser
   ]
 
+building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
+  $scope.attributes = {}
+]
 
 building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
+  $scope.add_by_name = (name)->
+    $scope.bridge "add_by_name", name
 
   $scope.c = ->
     $cookies.getAll()

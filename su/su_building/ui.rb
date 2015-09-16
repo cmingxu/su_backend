@@ -6,7 +6,7 @@ class BuildingUI
   LEFT = 100
   TOP = 100
 
-  HOST = "http://jghtwl.com:8081"
+  #HOST = "http://jghtwl.com:8081"
   HOST = "http://localhost:3000"
 
   attr_accessor :my_dialog

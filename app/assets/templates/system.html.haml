@@ -1,15 +1,17 @@
 .uk-width-medium-1-1.su_models_header
   %ul.uk-tab{'data-uk-tab' => '{connect: "#tabs"}'}
     %li
+      %a{'ui-sref' => 'attributes'} 属性
+    %li
       %a{'ui-sref' => 'local'} 本地
     %li
       %a{'ui-sref' => 'remote'} 远程
     %li.uk-active
       %a{href: ''} 构建中国
-  #search_area.uk-margin-right.uk-medium-widht-1-3
-    %input.uk-form-small{name: 'search'}
-    %span
-      %i.uk-icon-user
+  -##search_area.uk-margin-right.uk-medium-widht-1-3
+    -#%input.uk-form-small{name: 'search'}
+    -#%span
+      -#%i.uk-icon-user
 
   %ul#tabs.uk-switcher.uk-margin
     %li
