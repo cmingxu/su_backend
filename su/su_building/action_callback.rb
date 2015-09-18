@@ -85,6 +85,13 @@ module ActionCallback
       end
     end
 
+    dialog.add_action_callback('update_attribute') do |action, params|
+      $logger.debug params
+      model = Sketchup.active_model
+      selection = model.selection.first
+      selection
+    end
+
     dialog.add_action_callback('replace_by_name') do |action, params|
       #$logger.debug "replace active_model by model #{params}"
       #model = Sketchup.active_model
@@ -128,12 +135,21 @@ module ActionCallback
         component_definition  = selection.definition
         dynamic_attributes = selection.attribute_dictionary("dynamic_attributes")
         component_definition_name = dynamic_attributes["_name"] if dynamic_attributes
+
+        hash = {}
+        dynamic_attributes.each_pair do |k, v|
+          hash[k] = v
+        end
+
         thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
         component_definition.refresh_thumbnail
         component_definition.save_thumbnail(thumbnail_file_path)
         base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
         thumbnail_src = "data:image/png;base64,#{base64string}"
-        current_entity = {:name => component_definition_name || component_definition.name, :thumbnail_src => thumbnail_src, :type => "component_definition"}
+        current_entity = {:name => component_definition_name || component_definition.name,
+                          :thumbnail_src => thumbnail_src,
+                          :type => "component_definition",
+                          :dynamic_attributes => hash }
       when Sketchup::Group
       when Sketchup::Face
       end

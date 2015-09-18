@@ -76,7 +76,9 @@ building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USE
   ]
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
-  $scope.attributes = {}
+  $scope.update_attribute = ()->
+    alert('2')
+    $scope.bridge 'update_attribute', {"1": "2"}
 ]
 
 building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
@@ -168,6 +170,9 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
     $http.delete("/api/users/sign_out").success (response) ->
       window.location.hash = "/login"
 
+  $scope.update_attribute = ()->
+    alert('1')
+    
   $timeout ()->
     $scope.bridge 'initialization'
     , 100

@@ -16,8 +16,20 @@
   %ul#tabs.uk-switcher.uk-margin
     %li.uk-active
       .models.su_attributes
-        %div{"ng-show" => "current_entity.name"}
-        %div{"ng-hide" => "current_entity.name"}
+        %div{"ng-show" => "current_entity.type=='component_definition'"}
+          %table.uk-table.uk-table-hover.uk-table.stripped
+            %thead
+              %tr
+                %th.uk-text-center 属性
+                %th.uk-text-center 值
+
+            %tbody
+              %tr{"ng-repeat" => "(key, value) in current_entity.dynamic_attributes"}
+                %td.uk-text-right {{key}}
+                %td
+                  -#%input{"ng-value" => "{{value}}", "ng-change" => "update_attribute()"}
+                  %input{"ng-value" => "{{value}}"}
+        %div{"ng-hide" => "current_entity.type=='component_definition'"}
           .uk-alert.uk-alert-success.uk-text-center 请选择一个组件
 
 
