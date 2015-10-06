@@ -131,9 +131,7 @@ module ActionCallback
       http = Net::HTTP.new(uri.host, uri.port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json', 'Auth-Token' => auth_token})
       req.body = {entity: { name: model_name, file_content: Base64.encode64(File.read(File.join($SKP_PATH, model_name)))  }}.to_json
-      $logger.debug req.body
-      res = http.request(req)
-      $logger.debug "response #{res.body}"
+      http.request(req)
     end
 
     dialog.add_action_callback('initialization') do |action, params|
