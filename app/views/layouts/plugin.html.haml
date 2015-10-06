@@ -19,9 +19,8 @@
             %input.uk-form-small.uk-margin-bottom.uk-float-right.fc-name-field{'ng-model' => "current_entity.name", 'ng-change' => "current_component_definition_name_change()"}
             .uk-clearfix
           #action_bar
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right{"ng-disabled" => "{{current_entity.type != 'edge'}}"} 替换
             %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('save_current_component_definition')", "ng-disabled" => "{{!current_entity.name && current_entity.type == 'component_definition'}}"} 保存
-            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "bridge('list_attribute_dictionaries')", "ng-disabled" => "{{current_entity.type == 'component_definition'}}"} 属性
+            %button.uk-button.uk-button-small.uk-primary.uk-float-right.uk-margin-right{'ng-click' => "goto_page('/attributes')", "ng-disabled" => "{{current_entity.type == 'component_definition'}}"} 属性
         .uk-width-3-3{"ng-show" => "!current_entity.type"}
           .uk-alert.uk-alert-success 请选择一个模型
 
@@ -47,7 +46,6 @@
           %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ui-sref" => "login"} 我要登录
 
         %div{"ng-show" => "CurrentUser.isLogin()"}
-          .uk-alert.uk-alert-success 构建中国 cming.xu@gmail.com
-          %button.uk-button.uk-button-primary.uk-float-right.uk-margin-right{"ng-click" => "sign_out()"} 退出
+          %button.uk-button.uk-button-primary{"ng-click" => "sign_out()"} 退出
 
 

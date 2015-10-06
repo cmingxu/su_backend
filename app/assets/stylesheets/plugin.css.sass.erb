@@ -23,7 +23,6 @@ $border-color: gray
 #user_profile, #model_profile
   background-color: $highlight-color
   padding: 10px 5px
- 
 #user_profile
   width: 100%
   position: fixed
@@ -79,18 +78,23 @@ $border-color: gray
         position: absolute
         right: 10px
         top: 3px
-    .model_buttons
-      display: none
-      padding-right: 10px
-      .uk-button
-        padding: 0px 10px
-        line-height: 16px!important
-        height: 16px!important
-        min-height: 22px
-
-    &:hover
       .model_buttons
-        display: block
+        display: none
+        padding-right: 10px
+        padding-top: 5px
+        .uk-button
+          padding: 0px 10px
+          line-height: 16px!important
+          height: 16px!important
+          min-height: 22px
+
+      &:hover
+        .model_buttons
+          display: block
+
+.login_page,.register_page
+  margin: 20px
+  padding-top: 80px
 
 #ad
   overflow-x: hidden

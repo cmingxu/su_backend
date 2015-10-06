@@ -27,8 +27,7 @@
               %tr{"ng-repeat" => "(key, value) in current_entity.dynamic_attributes"}
                 %td.uk-text-right {{key}}
                 %td
-                  %input{"ng-value" => "{{value}}", "ng-change" => "update_attribute()"}
-                  %input{"ng-value" => "{{value}}"}
+                  %input{"ng-value" => "{{value}}", "ng-click" => "alert(1);"}
         %div{"ng-hide" => "current_entity.type=='component_definition'"}
           .uk-alert.uk-alert-success.uk-text-center 请选择一个组件
 

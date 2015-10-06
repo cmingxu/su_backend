@@ -26,10 +26,9 @@
               %span.model_size
                 {{model.skp_file_size}}
               %span.model_buttons.uk-float-right
-                %button.uk-button.uk-button-success{"ng-click" => "add_by_name(model.name)"} 生成
-                %button.uk-button.uk-button-success{"ng-click" => "replace_by_name(model.name)"} 替换
-                %button.uk-button.uk-button-success{"ng-click" => "remove_local_model(model.name)"} 删除
-                %button.uk-button.uk-button-success{"ng-click" => "upload_local_model(model.name)", "ng-if"=>"CurrentUser.isLogin()"} 上传
+                %button.uk-button.uk-button-primary{"ng-click" => "replace_by_name(model.name)"} 替换
+                %button.uk-button.uk-button-primary{"ng-click" => "remove_local_model(model.name)"} 删除
+                %button.uk-button.uk-button-primary{"ng-click" => "upload_local_model(model.name)", "ng-if"=>"CurrentUser.isLogin()"} 上传
             .model_created_time
               {{model.created_at_normal}}
     %li

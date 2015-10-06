@@ -14,8 +14,22 @@
       -#%i.uk-icon-user
 
   %ul#tabs.uk-switcher.uk-margin
+    %li
+    %li
     %li.uk-active
-    %li
-    %li
       .models.su_system_models
-        locals
+        .model_item{'ng-repeat' => "model in remote_models track by model.uuid"}
+          .model_icon
+            %img{"ng-src" => "{{model.icon}}", width: 60, height: 60 }
+          .model_details
+            .model_name
+              %strong {{model.name}}
+            .model_desc
+              %span.model_size
+                {{model.skp_file_size}}
+              %span.model_buttons.uk-float-right
+                %button.uk-button.uk-button-success{"ng-click" => "download_from_remote(model.skp_file + '|' + model.icon)"} 下载
+                %button.uk-button.uk-button-success{"ng-click" => "delete_remote(model.name, model.uuid)"} 删除
+            .model_created_time
+              {{model.created_at_normal}}
+    %li

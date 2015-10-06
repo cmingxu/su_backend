@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api, defaults: { format: :json } do
-    resources :entities, only: [:index, :create] do
+    resources :entities, only: [:index, :create, :destroy] do
       get :mine, on: :collection
     end
 

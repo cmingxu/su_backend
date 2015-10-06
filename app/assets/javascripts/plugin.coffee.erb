@@ -54,48 +54,56 @@ building.factory "Entity", ($resource) ->
     index:
       method: 'GET'
       isArray: true
+    mine:
+      url: "/api/entities/mine"
+      method: 'GET'
+      isArray: true
+    remove_enetity:
+      url: "/api/entities/:uuid"
+      method: 'DELETE'
   })
 
 building.constant 'CURRENT_USER', 'currentUser'
 
-building.factory 'CurrentUser', ['$cookies', 'localStorageService', 'CURRENT_USER', ($cookies, localStorageService, CURRENT_USER) ->
+building.factory 'CurrentUser', ['$cookies', 'CURRENT_USER', ($cookies, CURRENT_USER) ->
     currentUser = {}
 
-    currentUser.getUserInfo  = -> localStorageService.get(CURRENT_USER)
-    currentUser.setUserInfo  = (userInfo) -> localStorageService.set(CURRENT_USER, userInfo)
-    currentUser.isLogin      = -> $cookies.get('auth_token')? #and localStorageService.get(CURRENT_USER)?
+    currentUser.isLogin      = -> $cookies.get('auth_token')?
     currentUser.destroy      = -> localStorageService.remove(CURRENT_USER)
     currentUser.hasAuthToken = -> $cookies.get('auth_token')?
     currentUser.authToken    = -> $cookies.get('auth_token')
-
-    currentUser.missingAccountInfo = ->
-      currentUser = localStorageService.get(CURRENT_USER)
-      (currentUser.email) is null
 
     currentUser
   ]
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
   $scope.update_attribute = ()->
-    alert('2')
     $scope.bridge 'update_attribute', {"1": "2"}
 ]
 
 building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
-  $scope.add_by_name = (name)->
-    $scope.bridge "add_by_name", name
+  $scope.replace_by_name = (name)->
+    $scope.bridge "replace_by_name", name
 
   $scope.c = ->
     $cookies.getAll()
 
   $scope.upload_local_model = (model) ->
-    alert(model)
-    alert(CurrentUser.authToken())
-
     $scope.bridge "upload_local_model", model + "||" + CurrentUser.authToken()
 ]
 
-building.controller "Remote", ['$scope', ($scope) ->
+building.controller "Remote", ['$scope', '$http', '$interval', "Entity", ($scope, $http, $interval, Entity) ->
+  $scope.current_entity = {}
+  $scope.remote_models = {}
+
+  $scope.delete_remote = (model_name, uuid) ->
+    if confirm("永久删除模型" + model_name + "么?" + uuid)
+      Entity.remove_enetity {uuid: uuid}, (data) ->
+        $scope.remote_models = data
+
+  Entity.mine (data) ->
+    $scope.remote_models = data
+
 ]
 
 building.controller "Login", ['$scope', '$http', ($scope, $http) ->
@@ -149,6 +157,9 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
   $scope.current_entity = {}
   $scope.local_models = []
 
+  $scope.goto_page = (page) ->
+    window.location.hash = page
+
   $scope.bridge = (action, param) ->
     window.location.href = "skp:" + action + "@" + param
 
@@ -161,6 +172,10 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
 
   $scope.download_from_system = (skp_file) ->
     $scope.bridge "download_from_system", skp_file
+    window.location.hash = "/local"
+
+  $scope.download_from_remote = (skp_file) ->
+    $scope.bridge "download_from_remote", skp_file
     window.location.hash = "/local"
 
   $scope.replace_by_name = (model_name) ->

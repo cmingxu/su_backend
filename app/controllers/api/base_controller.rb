@@ -3,8 +3,11 @@ class Api::BaseController < ApplicationController
   helper_method :current_user
 
   def authenticate!
-    ap request.headers['Cookie']
     response_fail "要先登录哦" if current_user.blank?
+  end
+
+  def current_user
+    @user ||= User.find session[:user_id]
   end
 
   def index

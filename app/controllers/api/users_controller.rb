@@ -26,8 +26,8 @@ class Api::UsersController < Api::BaseController
   def login
     @user = User.find_by_email params[:user][:email]
     if @user && @user.valid_password?(params[:user][:password])
-      cookies[:auth_token] = @user.auth_token
       session[:user_id] = @user.id
+      cookies[:auth_token] = { :value => @user.auth_token, :expires => 1.hour.from_now } 
       response_success
     else
       response_fail "用户不存在或者密码不正确"

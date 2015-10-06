@@ -4,6 +4,18 @@ Sketchup::require 'open-uri'
 Sketchup::require 'net/http'
 
 module ActionCallback
+  def humanize_file_size(size)
+    if size > 2 ** 30
+      sprintf "%.1fG" % (size.to_f / 2 ** 30)
+    elsif size > 2 ** 20
+      sprintf "%.1fM" % (size.to_f / 2 ** 20)
+    elsif size > 2 ** 10
+      sprintf "%.1fK" % (size.to_f / 2 ** 10)
+    else
+      sprintf "%d" % size
+    end
+  end
+
   def base64_icon(icon_path)
     return "" if icon_path == ""
     base64string = Base64.encode64(File.read(icon_path)).gsub("\n", "")
@@ -15,7 +27,7 @@ module ActionCallback
       icon_path = File.join($TMP_FILE_PATH, File.basename(f).split(".")[0] + ".png")
       {
         :name => File.basename(f),
-        :skp_file_size => File.stat(f).size,
+        :skp_file_size => humanize_file_size(File.stat(f).size),
         :created_at_normal => File.stat(f).ctime.strftime("%m月%d日"),
         :icon => base64_icon(File.exists?(icon_path) ? icon_path : ""),
         :path => f
@@ -65,7 +77,7 @@ module ActionCallback
       end
     end
 
-    dialog.add_action_callback('add_by_name') do |action, params|
+    dialog.add_action_callback('replace_by_name') do |action, params|
       $logger.debug "replace active_model by model #{params}"
       model = Sketchup.active_model
       $logger.debug model.selection
@@ -119,8 +131,9 @@ module ActionCallback
       http = Net::HTTP.new(uri.host, uri.port)
       req = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json', 'Auth-Token' => auth_token})
       req.body = {entity: { name: model_name, file_content: Base64.encode64(File.read(File.join($SKP_PATH, model_name)))  }}.to_json
+      $logger.debug req.body
       res = http.request(req)
-      puts "response #{res.body}"
+      $logger.debug "response #{res.body}"
     end
 
     dialog.add_action_callback('initialization') do |action, params|
@@ -209,10 +222,24 @@ module ActionCallback
 
       update_js_value(dialog, "local_models", local_models.to_json)
     end
+
+    dialog.add_action_callback('download_from_remote') do |action, params|
+      skp_file_path = params.split('|')[0]
+      f = File.open(File.join($SKP_PATH, "s_#{File.basename(skp_file_path)}"), "w")
+      f << open(BuildingUI::HOST + skp_file_path).read
+      f.close
+
+      icon_file_path = params.split('|')[1]
+      f = File.open(File.join($TMP_FILE_PATH, "s_#{File.basename(icon_file_path)}"), "w")
+      f << open(BuildingUI::HOST + icon_file_path).read
+      f.close
+
+      update_js_value(dialog, "local_models", local_models.to_json)
+    end
   end
 
 
-  module_function :update_js_value, :register_callbacks, :local_models, :base64_icon
+  module_function :update_js_value, :register_callbacks, :local_models, :base64_icon, :humanize_file_size
 end
 
 
