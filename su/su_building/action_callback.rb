@@ -60,7 +60,7 @@ module ActionCallback
       component_definition_name = dynamic_attributes["_name"] if dynamic_attributes
       if current_entity.is_a?(Sketchup::ComponentInstance) && current_entity.definition.name
         current_entity.definition.save_as File.join($SKP_PATH, "#{component_definition_name}.skp")
-        thumbnail_file_path = File.join($TMP_FILE_PATH, "#{current_entity.definition.name}.png")
+        thumbnail_file_path = File.join($TMP_FILE_PATH, "#{component_definition_name}.png")
         current_entity.definition.refresh_thumbnail
         current_entity.definition.save_thumbnail(thumbnail_file_path)
 
@@ -155,7 +155,14 @@ module ActionCallback
         thumbnail_file_path = File.join($TMP_FILE_PATH, 'thumbnail.png')
         component_definition.refresh_thumbnail
         component_definition.save_thumbnail(thumbnail_file_path)
+
+        $logger.debug thumbnail_file_path
+        $logger.debug File.exists?(thumbnail_file_path)
+
         base64string = Base64.encode64(File.read(thumbnail_file_path)).gsub("\n", "")
+        $logger.debug File.exists?(thumbnail_file_path)
+        $logger.debug File.read(thumbnail_file_path).length
+        sleep 2
         thumbnail_src = "data:image/png;base64,#{base64string}"
         current_entity = {:name => component_definition_name || component_definition.name,
                           :thumbnail_src => thumbnail_src,

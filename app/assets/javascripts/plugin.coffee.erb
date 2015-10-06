@@ -78,6 +78,7 @@ building.factory 'CurrentUser', ['$cookies', 'CURRENT_USER', ($cookies, CURRENT_
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
   $scope.update_attribute = ()->
+    alert('wwwwwwwww')
     $scope.bridge 'update_attribute', {"1": "2"}
 ]
 
