@@ -1,4 +1,5 @@
 #= require jquery
+#= require underscore-min
 #= require angular
 #= require angular-resource
 #= require angular-ui-router
@@ -77,8 +78,19 @@ building.factory 'CurrentUser', ['$cookies', 'CURRENT_USER', ($cookies, CURRENT_
   ]
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
+  $scope.displayable_attributes = (obj) ->
+    displayable_attr_keys = _.intersection (k for k of obj),  (k for k of attributes_config)
+    alert (k for k of obj)
+    alert (k for k of attributes_config)
+    alert displayable_attr_keys
+    displayable_attributes = []
+    for k in displayable_attr_keys
+      displayable_attr_keys.push key: k, value: obj[k]
+    displayable_attributes
+
+
+
   $scope.update_attribute = ()->
-    alert('wwwwwwwww')
     $scope.bridge 'update_attribute', {"1": "2"}
 ]
 
@@ -158,6 +170,13 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
   $scope.current_entity = {}
   $scope.local_models = []
 
+  $scope.readable_name = (code)->
+    code = code.split("")
+    f = code[0]
+    s = code[1]
+    name_config[f][s]
+
+
   $scope.goto_page = (page) ->
     window.location.hash = page
 
@@ -188,7 +207,6 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
 
   $scope.update_attribute = ()->
     alert('1')
-    
   $timeout ()->
     $scope.bridge 'initialization'
     , 100

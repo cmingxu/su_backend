@@ -24,11 +24,10 @@
                 %th.uk-text-center 值
 
             %tbody
-              %tr{"ng-repeat" => "(key, value) in current_entity.dynamic_attributes"}
-                %td.uk-text-right {{key}}
+              %tr{"ng-repeat" => "attr in displayable_attributes(current_entity.dynamic_attributes)"}
+                %td.uk-text-right {{attr.key}}
                 %td
-                  -#%input{"ng-value" => "{{value}}", "ng-change" => "update_attribute()"}
-                  %input{"ng-change" => "update_attribute()"}
+                  %input{"ng-value" => "{{attr.value}}"}
         %div{"ng-hide" => "current_entity.type=='component_definition'"}
           .uk-alert.uk-alert-success.uk-text-center 请选择一个组件
 

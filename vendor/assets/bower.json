@@ -2,9 +2,12 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "moment": "latest",
+    "underscore": "latest",
     "angular-ui-router": "latest",
     "angular-cookies": "latest",
     "angular-local-storage": "latest",
     "angular-resource": "latest"
+  },
+  "resolutions": {
   }
 }
