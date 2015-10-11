@@ -25,9 +25,13 @@
 
             %tbody
               %tr{"ng-repeat" => "attr in displayable_attributes(current_entity.dynamic_attributes)"}
-                %td.uk-text-right {{attr.key}}
+                %td.uk-text-right {{attr.display}}
                 %td
-                  %input{"ng-value" => "{{attr.value}}"}
+                  %div{"ng-if" => "attr.type == 'input'"}
+                    %input{"ng-value" => "{{attr.value}}"}
+                  %div{"ng-if" => "attr.type == 'select'"}
+                    %select
+                      %option{"ng-repeat" => "option in attr.options", "value" => "{{option}}"} {{option}}
         %div{"ng-hide" => "current_entity.type=='component_definition'"}
           .uk-alert.uk-alert-success.uk-text-center 请选择一个组件
 

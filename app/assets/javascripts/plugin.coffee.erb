@@ -79,16 +79,17 @@ building.factory 'CurrentUser', ['$cookies', 'CURRENT_USER', ($cookies, CURRENT_
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
   $scope.displayable_attributes = (obj) ->
-    displayable_attr_keys = _.intersection (k for k of obj),  (k for k of attributes_config)
-    alert (k for k of obj)
-    alert (k for k of attributes_config)
-    alert displayable_attr_keys
+    displayable_attr_keys = _.intersection (k.toLowerCase() for k of obj),  (k.toLowerCase() for k of attributes_config)
     displayable_attributes = []
     for k in displayable_attr_keys
-      displayable_attr_keys.push key: k, value: obj[k]
+      displayable_attributes.push(key: k, value: obj[k],
+      display: attributes_config[k]["display"],
+      type: attributes_config[k]["type"],
+      editable: attributes_config[k]["editable"],
+      options:
+        attributes_config[k]["options"]
+      )
     displayable_attributes
-
-
 
   $scope.update_attribute = ()->
     $scope.bridge 'update_attribute', {"1": "2"}
