@@ -15,7 +15,7 @@
 
   %ul#tabs.uk-switcher.uk-margin
     %li.uk-active
-      .models.su_attributes
+      .models.su_attributes{:style => "overflow-y: scroll;"}
         %div{"ng-show" => "current_entity.type=='component_definition'"}
           %table.uk-table.uk-table-hover.uk-table.stripped
             %thead
@@ -24,14 +24,15 @@
                 %th.uk-text-center 值
 
             %tbody
-              %tr{"ng-repeat" => "attr in displayable_attributes(current_entity.dynamic_attributes)"}
+              %tr{"ng-repeat" => "attr in displayable_attributes"}
                 %td.uk-text-right {{attr.display}}
                 %td
                   %div{"ng-if" => "attr.type == 'input'"}
-                    %input{"ng-value" => "{{attr.value}}"}
+                    %input{"ng-model" => "attr.value", "ng-disabled" => "!attr.editable", "ng-model-onblur" => true, "ng-change" => "change(attr.key, attr.value)"}
                   %div{"ng-if" => "attr.type == 'select'"}
                     %select
-                      %option{"ng-repeat" => "option in attr.options", "value" => "{{option}}"} {{option}}
+                      %option{"ng-repeat" => "option in attr.options", "ng-model" => "option", "ng-disabled" => "!attr.editable", "ng-change" => "change(attr.key, attr.value)"} {{option}}
+
         %div{"ng-hide" => "current_entity.type=='component_definition'"}
           .uk-alert.uk-alert-success.uk-text-center 请选择一个组件
 

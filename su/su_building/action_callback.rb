@@ -101,7 +101,7 @@ module ActionCallback
       $logger.debug params
       model = Sketchup.active_model
       selection = model.selection.first
-      selection
+      selection.set_attribute("dynamic_attributes", params.split(":")[0], params.split(":")[1])
     end
 
     dialog.add_action_callback('replace_by_name') do |action, params|

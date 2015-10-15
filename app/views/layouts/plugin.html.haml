@@ -32,18 +32,18 @@
       #models
         %ui-view
 
-      #ad
-        .uk-panel
-          .ad-item
-            = image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
-          .ad-item
-            = image_tag asset_path('shicai.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
-          .ad-item
-            = image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
-          .ad-item
-            = image_tag asset_path('shicai.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
-          .ad-item
-            = image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
+      -##ad
+        -#.uk-panel
+          -#.ad-item
+            -#= image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
+          -#.ad-item
+            -#= image_tag asset_path('shicai.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
+          -#.ad-item
+            -#= image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
+          -#.ad-item
+            -#= image_tag asset_path('shicai.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
+          -#.ad-item
+            -#= image_tag asset_path('mianzhuan.jpg'), height: 60, width: 60, class: 'uk-border-rounded'
 
       #user_profile.uk-container
         %div{"ng-show" => "!CurrentUser.isLogin()"}

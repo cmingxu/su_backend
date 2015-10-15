@@ -78,21 +78,23 @@ building.factory 'CurrentUser', ['$cookies', 'CURRENT_USER', ($cookies, CURRENT_
   ]
 
 building.controller "Attributes", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
-  $scope.displayable_attributes = (obj) ->
-    displayable_attr_keys = _.intersection (k.toLowerCase() for k of obj),  (k.toLowerCase() for k of attributes_config)
-    displayable_attributes = []
-    for k in displayable_attr_keys
-      displayable_attributes.push(key: k, value: obj[k],
+  $scope.displayable_attributes = []
+  displayable_attr_keys = _.intersection (k.toLowerCase() for k of $scope.current_entity.dynamic_attributes),  (k.toLowerCase() for k of attributes_config)
+  $scope.change = (k, v)->
+    $scope.bridge 'update_attribute', k + ":" + v
+
+  for k in displayable_attr_keys
+    $scope.displayable_attributes.push(
+      key: k,
+      value: $scope.current_entity.dynamic_attributes[k],
       display: attributes_config[k]["display"],
       type: attributes_config[k]["type"],
       editable: attributes_config[k]["editable"],
       options:
         attributes_config[k]["options"]
-      )
-    displayable_attributes
+    )
 
-  $scope.update_attribute = ()->
-    $scope.bridge 'update_attribute', {"1": "2"}
+
 ]
 
 building.controller "Local", ['$scope', 'CurrentUser', '$cookies', ($scope, CurrentUser, $cookies) ->
@@ -206,8 +208,6 @@ building.controller "Main", ['$scope', '$http', '$timeout', "Entity", "CurrentUs
     $http.delete("/api/users/sign_out").success (response) ->
       window.location.hash = "/login"
 
-  $scope.update_attribute = ()->
-    alert('1')
   $timeout ()->
     $scope.bridge 'initialization'
     , 100
