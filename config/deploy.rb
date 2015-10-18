@@ -1,8 +1,7 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-# require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-require 'mina/rvm'    # for rvm support. (http://rvm.io)
+#require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 # Basic settings:
 #   domain       - The hostname to SSH to.
@@ -10,7 +9,7 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, '112.124.57.67'
+set :domain, '182.92.78.92'
 set :deploy_to, '/home/deploy/su_backend'
 set :repository, 'git@git.coding.net:cmingxu/su_backend.git'
 
@@ -18,7 +17,7 @@ set :branch, ENV["br"] || 'master'
 set :user, 'deploy'
 
 # For system-wide RVM install.
-set :rvm_path, '/home/deploy/.rvm/scripts/rvm'
+#set :rvm_path, '/home/deploy/.rvm/scripts/rvm'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
@@ -29,7 +28,7 @@ set :rails_env, :staging
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
 #   set :port, '30000'     # SSH port number.
-#   set :forward_agent, true     # SSH forward_agent.
+set :forward_agent, true     # SSH forward_agent.
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -39,7 +38,6 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-2.1.5@default]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
